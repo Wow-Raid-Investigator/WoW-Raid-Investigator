@@ -30,7 +30,7 @@ namespace Wow_Raid
                     read = fs.Read(buffer, 0, buffer.Length);
                     totalRead += read;
 
-                    int currentPercent = (int)(totalRead / length);
+                    int currentPercent = (int)(totalRead * 100 / length);
                     if (currentPercent != lastPercent)
                     {
                         window.Dispatcher.InvokeAsync(new Action(() =>
@@ -44,8 +44,7 @@ namespace Wow_Raid
                 } while (read > 0);
 
                 client.Close();
-
-
+                fs.Close();
             }
             catch (System.Net.Sockets.SocketException)
             {
