@@ -1,4 +1,4 @@
 ﻿<NavigationWindow x:Class="Wow_Raid.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    Source="HomePage.xaml"/>
+    Source="HomePage.xaml" Width="550" Height="400"/>
