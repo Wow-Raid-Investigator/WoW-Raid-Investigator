@@ -21,6 +21,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+.metadata/
 
 # Visual Studio 2015 cache/options directory
 .vs/
