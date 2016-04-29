@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wow_Raid"
         mc:Ignorable="d"
-        Title="UploadPopup" Height="100" Width="250" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="UploadPopup" Height="100" Width="250" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None">
     <Grid>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Stretch" Height="25" Margin="10,10,10,0" VerticalAlignment="Top" Minimum="0" Maximum="100"/>
         <Label HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,45,0,0" Content="Uploading"/>
