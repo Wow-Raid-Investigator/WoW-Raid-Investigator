@@ -8,7 +8,58 @@
       d:DesignHeight="300" d:DesignWidth="525"
       Title="StatsPage">
 
-    <Grid>
-        
+    <Grid Background="White">
+        <TabControl>
+            <TabItem Header="Summary" Width="75">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Label x:Name="statsLabel" Content="Stats" FontSize="32" Margin="10,0,209,211" RenderTransformOrigin="-1.348,1.216"/>
+                    <!--<TextBlock x:Name="statsDescription" TextWrapping="Wrap" Text="Please Work. Goddammit." Margin="10,57,254,10"/>-->
+                    <TextBlock x:Name="statsDescription" TextWrapping="Wrap" Text="{Binding statsDescriptionText}" Margin="10,57,254,10"/>
+                    <Rectangle x:Name="image" HorizontalAlignment="Left" Fill="Coral" Height="201" Margin="266,57,0,0" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.524,0.496"/>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Raid" Width="75">
+                <Grid>
+                    <Label x:Name="raidLabel" Content="Raid" FontSize="32" Margin="10,0,209,211" RenderTransformOrigin="-1.348,1.216"/>
+                    <Rectangle x:Name="image2" HorizontalAlignment="Left" Fill="Coral" Height="201" Margin="266,57,0,0" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.524,0.496"/>
+                    <DataGrid x:Name="raidTable" HorizontalAlignment="Left" Height="201" Margin="10,57,0,0" VerticalAlignment="Top" Width="243"
+                              CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Player" Binding="{Binding player}" />
+                            <DataGridTextColumn Header="Total Healing" Binding="{Binding totalHealing}" />
+                            <DataGridTextColumn Header="Healing Per Second" Binding="{Binding healingPerSecond}" />
+                            <DataGridTextColumn Header="Total Damage" Binding="{Binding totalDamage}" />
+                            <DataGridTextColumn Header="Damage Per Second" Binding="{Binding damagePerSecond}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Player" Width="75">
+                <Grid>
+                    <Label x:Name="playerLabel" Content="Raid" FontSize="32" Margin="10,0,209,211" RenderTransformOrigin="-1.348,1.216"/>
+                    <Rectangle x:Name="image3" HorizontalAlignment="Left" Fill="Coral" Height="201" Margin="266,57,0,0" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.524,0.496"/>
+                    <DataGrid x:Name="playerTable" HorizontalAlignment="Left" Height="201" Margin="10,57,0,0" VerticalAlignment="Top" Width="243"
+                              CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Spell Name" Binding="{Binding spell}" />
+                            <DataGridTextColumn Header="Spell Healing/Damage" Binding="{Binding effect}" />
+                            <DataGridTextColumn Header="HPS/DPS" Binding="{Binding effectPerSecond}" />
+                            <DataGridTextColumn Header="Hit Count" Binding="{Binding hitCount}" />
+                            <DataGridTextColumn Header="Crit%" Binding="{Binding crit}" />
+                            <DataGridTextColumn Header="Multistrike%" Binding="{Binding multistrike}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+
+
+
+
+
+        </TabControl>
+
     </Grid>
 </Page>
