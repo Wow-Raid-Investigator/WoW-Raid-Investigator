@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import parser.Event;
+
 public class UploadHandle implements Runnable {
 
 	private Socket client;
