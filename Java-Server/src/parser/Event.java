@@ -1,6 +1,7 @@
 package parser;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,11 +12,17 @@ import java.util.Map;
 // https://github.com/NeilBostian/CombatLogParser/blob/master/CombatLogParser/EventInfo.cs
 public class Event {
 	public final Map<String,String> data;
-	
+	public final Class type;
 	// no instantiation for you!
 	
-	private Event(Map<String,String> data) {
+	private Event() {
+		this.data = new HashMap<String,String>();
+		this.type = Event.class;
+	}
+	
+	private Event(Map<String,String> data, Class type) {
 		this.data = data;
+		this.type = type;
 	}
 	
 	public static Event parseLine(String line) throws IllegalArgumentException, IllegalAccessException {
@@ -38,16 +45,15 @@ public class Event {
 		
 		System.out.println(selected.getName());
 		
-		List<String> fields = new ArrayList<String>();
 		Map<String,String> fieldData = new HashMap<String,String>();
 		
 		for (Field field : selected.getFields()) {
 			if (field.getType() == Integer.TYPE) {
-				fields.add(field.getName());
 				fieldData.put(field.getName(), data[field.getInt(null)]);
 			}
 		}
-		return new Event(fieldData);
+		
+		return new Event(fieldData, selected);
 	}
 	
 	public class UnitKeys
@@ -142,7 +148,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SPELL_PERIODIC_ENERGIZE //unsure of 17
+    public class SPELL_PERIODIC_ENERGIZE extends Event //unsure of 17
     {
         public static final int CastSpellId = 8;
         public static final int CastSpellName = 9;
@@ -232,7 +238,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SPELL_MISSED //12-13 unknown
+    public class SPELL_MISSED extends Event //12-13 unknown
     {
         public static final int CastSpellId = 8;
         public static final int CastSpellName = 9;
@@ -241,7 +247,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SPELL_DAMAGE //27-33 unknown
+    public class SPELL_DAMAGE extends Event //27-33 unknown
     {
         public static final int CastSpellId = 8;
         public static final int CastSpellName = 9;
@@ -265,7 +271,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SPELL_PERIODIC_DAMAGE //27-33 unknown
+    public class SPELL_PERIODIC_DAMAGE extends Event //27-33 unknown
     {
         public static final int CastSpellId = 8;
         public static final int CastSpellName = 9;
@@ -289,7 +295,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SPELL_PERIODIC_MISSED //12-14 unknown
+    public class SPELL_PERIODIC_MISSED extends Event //12-14 unknown
     {
         public static final int CastSpellId = 8;
         public static final int CastSpellName = 9;
@@ -298,12 +304,12 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SPELL_ABSORBED //8-15 unknown
+    public class SPELL_ABSORBED extends Event //8-15 unknown
     {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SPELL_HEAL //27-28 unknown
+    public class SPELL_HEAL extends Event //27-28 unknown
     {
         public static final int CastSpellId = 8;
         public static final int CastSpellName = 9;
@@ -327,7 +333,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SPELL_PERIODIC_HEAL //27-28 unknown
+    public class SPELL_PERIODIC_HEAL extends Event //27-28 unknown
     {
         public static final int CastSpellId = 8;
         public static final int CastSpellName = 9;
@@ -386,7 +392,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class RANGE_DAMAGE //unknown 26-33
+    public class RANGE_DAMAGE extends Event //unknown 26-33
     {
         public static final int CastSpellId = 8;
         public static final int CastSpellName = 9;
@@ -410,7 +416,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class SWING_DAMAGE //24-30 unknown
+    public class SWING_DAMAGE extends Event //24-30 unknown
     {
         public static final int TargetGUID = 8;
         public static final int TargetGUIDOwner = 9;
@@ -430,7 +436,7 @@ public class Event {
         public static final int DamageSpellSchool = 23;
         public final boolean HasUnitKeys = true;
     }
-    public class SWING_DAMAGE_LANDED //24-30 unknown
+    public class SWING_DAMAGE_LANDED extends Event //24-30 unknown
     {
         public static final int TargetGUID = 8;
         public static final int TargetGUIDOwner = 9;
@@ -450,7 +456,7 @@ public class Event {
         public static final int DamageSpellSchool = 23;
         public final boolean HasUnitKeys = true;
     }
-    public class SWING_MISSED //9-11 missing
+    public class SWING_MISSED extends Event //9-11 missing
     {
         public static final int MissedReason = 8;
         public final boolean HasUnitKeys = true;
@@ -487,7 +493,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class ENVIRONMENTAL_DAMAGE //22-31 unknown
+    public class ENVIRONMENTAL_DAMAGE extends Event //22-31 unknown
     {
         public static final int TargetGUID = 8;
         public static final int TargetGUIDOwner = 9;
@@ -506,7 +512,7 @@ public class Event {
         public final boolean HasUnitKeys = true;
     }
 
-    public class RANGE_MISSED //12-13 unknown
+    public class RANGE_MISSED extends Event //12-13 unknown
     {
         public static final int SpellId = 8;
         public static final int SpellName = 9;
