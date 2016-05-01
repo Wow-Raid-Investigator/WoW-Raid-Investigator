@@ -10,7 +10,6 @@ import java.util.Map;
 // The event data is pulled from
 // https://github.com/NeilBostian/CombatLogParser/blob/master/CombatLogParser/EventInfo.cs
 public class Event {
-	public final List<String> fields;
 	public final Map<String,String> data;
 	
 	// no instantiation for you!
