@@ -14,8 +14,7 @@ public class Event {
 	
 	// no instantiation for you!
 	
-	private Event(List<String> fields, Map<String,String> data) {
-		this.fields = fields;
+	private Event(Map<String,String> data) {
 		this.data = data;
 	}
 	
@@ -48,7 +47,7 @@ public class Event {
 				fieldData.put(field.getName(), data[field.getInt(null)]);
 			}
 		}
-		return new Event(fields, fieldData);
+		return new Event(fieldData);
 	}
 	
 	public class UnitKeys
