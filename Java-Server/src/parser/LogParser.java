@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import inserters.Inserter;
+import inserters.Handler;
 
 public class LogParser {
 
-	private HashMap<Class, ArrayList<Inserter>> subscribers;
+	private HashMap<Class, ArrayList<Handler>> subscribers;
 
 	public LogParser() {
-		subscribers = new HashMap<Class, ArrayList<Inserter>>();
+		subscribers = new HashMap<Class, ArrayList<Handler>>();
 	}
 
 	public void parseFile(String path) {
@@ -47,10 +47,10 @@ public class LogParser {
 		Event event;
 		try {
 			event = Event.parseLine(line);
-			List<Inserter> listeners = subscribers.get(event.type);
+			List<Handler> listeners = subscribers.get(event.type);
 
 			if (listeners != null) {
-				for (Inserter listener : listeners) {
+				for (Handler listener : listeners) {
 					listener.receive(event);
 				}
 			}
@@ -61,9 +61,9 @@ public class LogParser {
 
 	}
 
-	public void register(Inserter inserter, Class type) {
+	public void register(Handler inserter, Class type) {
 		if (subscribers.get(type) == null) {
-			subscribers.put(type, new ArrayList<Inserter>());
+			subscribers.put(type, new ArrayList<Handler>());
 		}
 
 		subscribers.get(type).add(inserter);

@@ -4,15 +4,18 @@ import java.util.HashMap;
 
 import com.datastax.driver.core.Session;
 
-public class Inserter {
-	private Session session;
+// Just used for testing. Prints instead of
+// trying to hit the database
+public class MockInserter extends Inserter {
+
 	private int index;
-	public Inserter(Session session) {
-		this.session = session;
-		this.index = 0;
+	public MockInserter(Session session) {
+		super(session);
+		index = 1;
 	}
-	
-	public void insert(String table, HashMap<String,String> data) {
+
+	@Override
+	public void insert(String table, HashMap<String, String> data) {
 		String paramStr = "";
 		String valueStr = "";
 		
@@ -31,6 +34,7 @@ public class Inserter {
 		paramStr = paramStr.substring(0,paramStr.length()-1);
 		valueStr = valueStr.substring(0,valueStr.length()-1);
 		
-		session.execute("INSERT INTO " + table + "(" + paramStr + ") VALUES (" + valueStr +")");
+		System.out.println("INSERT INTO " + table + "(" + paramStr + ") VALUES (" + valueStr +")");
 	}
+
 }
