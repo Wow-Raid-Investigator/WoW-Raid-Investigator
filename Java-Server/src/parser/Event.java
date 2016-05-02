@@ -38,7 +38,6 @@ public class Event {
 		long time;
 		SimpleDateFormat parser = new SimpleDateFormat("dd/MM HH:mm:ss");
 
-		System.out.println(date);
 		try {
 			time = parser.parse(date).getTime();
 		} catch (ParseException e1) {
