@@ -37,19 +37,21 @@ namespace Wow_Raid
         private Perst ()
         {
             db = StorageFactory.Instance.CreateStorage();
-            db.Open("storage.dbs", (long) Math.Pow(2, 20));
+            db.Open("storage.dbs", 1073741824L);
 
             root = (Index)db.Root;
 
             if (root == null)
             {
                 root = db.CreateIndex(typeof(string), true);
+                db.Root = root;
             }
         }
 
         public void Shutdown()
         {
             db.Close();
+            instance = null;
         }
 
         public Object this[String key]
