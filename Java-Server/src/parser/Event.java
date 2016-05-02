@@ -54,14 +54,17 @@ public class Event {
 		Class selected = null;
 		for (Class clazz : classes) {
 			String nameOnly = clazz.getName().replaceAll("parser\\.Event\\$","");
-			
+
 			if (nameOnly.equals(eventType)) {
 				selected = clazz;
 				break;
 			}
 		}
-		
-		System.out.println(selected.getName());
+
+		if (selected == null) {
+			// Some kind of event we don't know about. Ignore it
+			return new Event();
+		}
 		
 		Map<String,String> fieldData = new HashMap<String,String>();
 		

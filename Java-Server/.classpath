@@ -5,5 +5,11 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="C:/Users/haussmsg/Rose-Hulman/2015-2016/Spring Quarter/CSSE-433 Databases/WoW-Raid-Investigator/Java-Server/cassandra-driver-core-3.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/haussmsg/Rose-Hulman/2015-2016/Spring Quarter/CSSE-433 Databases/WoW-Raid-Investigator/Java-Server/cassandra-driver-extras-3.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/haussmsg/Rose-Hulman/2015-2016/Spring Quarter/CSSE-433 Databases/WoW-Raid-Investigator/Java-Server/cassandra-driver-mapping-3.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/haussmsg/Rose-Hulman/2015-2016/Spring Quarter/CSSE-433 Databases/WoW-Raid-Investigator/Java-Server/guava-19.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/haussmsg/Rose-Hulman/2015-2016/Spring Quarter/CSSE-433 Databases/WoW-Raid-Investigator/Java-Server/metrics-core-3.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/haussmsg/Rose-Hulman/2015-2016/Spring Quarter/CSSE-433 Databases/WoW-Raid-Investigator/Java-Server/netty-all-4.0.36.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/haussmsg/Rose-Hulman/2015-2016/Spring Quarter/CSSE-433 Databases/WoW-Raid-Investigator/Java-Server/slf4j-api-1.7.21.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

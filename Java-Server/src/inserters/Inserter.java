@@ -34,13 +34,13 @@ public class Inserter {
 		for (String str : data.keySet()) {
 			paramStr += str + ",";
 			if (str.equals(Handler.RAID)) {
-				valueStr += "'" + raid + "',";
+				valueStr += raid + ",";
 			} else if (str.equals(Handler.ENCOUNTER)){
-				valueStr += "'" + encounter + "',";
+				valueStr += encounter + ",";
 			} else if (str.equals(Handler.LOGNO)) {
-				valueStr += "'" + index + "',";
+				valueStr += index + ",";
 			} else {
-				valueStr += "'" + data.get(str) + "',";
+				valueStr += data.get(str) + ",";
 			}
 			
 		}
