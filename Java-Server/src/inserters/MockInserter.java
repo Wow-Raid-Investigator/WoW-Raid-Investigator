@@ -9,8 +9,8 @@ import com.datastax.driver.core.Session;
 public class MockInserter extends Inserter {
 
 	private int index;
-	public MockInserter(Session session) {
-		super(session);
+	public MockInserter(Session session, int raid) {
+		super(session, raid);
 		index = 1;
 	}
 

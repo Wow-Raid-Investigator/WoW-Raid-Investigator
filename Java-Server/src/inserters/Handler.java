@@ -18,8 +18,6 @@ import parser.Event;
  */
 public abstract class Handler {
 	protected final Inserter inserter;
-	protected final int raid;
-	protected int encounter;
 
 	public final static String RAID = "raid";
 	public final static String ENCOUNTER = "encounter";
@@ -29,13 +27,7 @@ public abstract class Handler {
 	public final static String TARGET_GUID = "target";
 	
 	public Handler(Inserter inserter) {
-		this(inserter, 1, 1);
-	}
-	
-	public Handler(Inserter inserter, int raid, int encounter) {
 		this.inserter = inserter;
-		this.raid = raid;
-		this.encounter = encounter;
 	}
 	
 	protected void insert(String table, HashMap<String,String> data) {

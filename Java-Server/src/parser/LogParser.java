@@ -10,12 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import inserters.Handler;
+import inserters.Inserter;
 
 public class LogParser {
 
-	private HashMap<Class, ArrayList<Handler>> subscribers;
-
-	public LogParser() {
+	private final HashMap<Class, ArrayList<Handler>> subscribers;
+	private final Inserter inserter;
+	
+	public LogParser(Inserter inserter) {
+		this.inserter = inserter;
 		subscribers = new HashMap<Class, ArrayList<Handler>>();
 	}
 
@@ -27,6 +30,7 @@ public class LogParser {
 			String line;
 			
 			while ((line = reader.readLine()) != null) {
+				inserter.incrementIndex();
 				parse(line);
 			}
 			
@@ -38,9 +42,7 @@ public class LogParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+	
 	}
 
 	public void parse(String line) {

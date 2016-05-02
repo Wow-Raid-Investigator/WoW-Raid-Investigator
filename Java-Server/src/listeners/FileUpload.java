@@ -43,7 +43,7 @@ public class FileUpload extends Thread {
 				
 				FileOutputStream stream = new FileOutputStream(fileName);
 				System.out.printf("Client connected from %s\n", client.getInetAddress());
-				new Thread(new UploadHandle(client, stream)).start();
+				new Thread(new UploadHandle(client, stream, fileName)).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.out.println("Bad Client FileUpload Connection");

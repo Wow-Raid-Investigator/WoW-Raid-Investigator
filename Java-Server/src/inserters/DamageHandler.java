@@ -12,9 +12,8 @@ public class DamageHandler extends Handler {
 
 	private static final String DAMAGE = "damage";
 	
-	public DamageHandler(Inserter inserter, int raid, int encounter) {
-		super(inserter, raid, encounter);
-		// TODO Auto-generated constructor stub
+	public DamageHandler(Inserter inserter) {
+		super(inserter);
 	}
 
 	@Override
@@ -22,9 +21,9 @@ public class DamageHandler extends Handler {
 		if (event.type.equals(Event.SWING_DAMAGE.class)) {
 			HashMap<String,String> data = new HashMap<String,String>();
 			
-			data.put(Handler.RAID, Integer.toString(this.raid));
-			data.put(Handler.ENCOUNTER, Integer.toString(this.encounter));
-			data.put(Handler.LOGNO, "logno");
+			data.put(Handler.RAID, Handler.RAID);
+			data.put(Handler.ENCOUNTER, Handler.ENCOUNTER);
+			data.put(Handler.LOGNO, Handler.LOGNO);
 			data.put(Handler.TIMESTAMP, Long.toString(event.time));
 			data.put(Handler.SOURCE_GUID, event.data.get("SoureceGUID"));
 			data.put(Handler.TARGET_GUID, event.data.get("TargetGUID"));

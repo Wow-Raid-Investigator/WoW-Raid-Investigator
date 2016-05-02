@@ -6,21 +6,38 @@ import com.datastax.driver.core.Session;
 
 public class Inserter {
 	private Session session;
+	
+	protected final int raid;
+	protected int encounter;
+	
 	private int index;
-	public Inserter(Session session) {
+	
+	public Inserter(Session session, int raid) {
 		this.session = session;
+		this.raid = raid;
+		this.encounter = 0;
 		this.index = 0;
+	}
+	
+	public void incrementEncounter() {
+		this.encounter++;
+	}
+	
+	public void incrementIndex() {
+		this.index++;
 	}
 	
 	public void insert(String table, HashMap<String,String> data) {
 		String paramStr = "";
 		String valueStr = "";
 		
-		index++;
-		
 		for (String str : data.keySet()) {
 			paramStr += str + ",";
-			if (str.equals(Handler.LOGNO)) {
+			if (str.equals(Handler.RAID)) {
+				valueStr += "'" + raid + "',";
+			} else if (str.equals(Handler.ENCOUNTER)){
+				valueStr += "'" + encounter + "',";
+			} else if (str.equals(Handler.LOGNO)) {
 				valueStr += "'" + index + "',";
 			} else {
 				valueStr += "'" + data.get(str) + "',";
