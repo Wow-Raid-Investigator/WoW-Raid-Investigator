@@ -6,6 +6,7 @@ import java.util.List;
 import com.datastax.driver.core.Session;
 
 import parser.Event;
+import parser.WowEventListener;
 
 /* 
  * An Inserter subscribes for particular event types, then
@@ -16,7 +17,7 @@ import parser.Event;
  * We'll construct one of these for every import run. Contains state
  * about the current raid and encounter #.
  */
-public abstract class Handler {
+public abstract class Handler implements WowEventListener {
 	protected final Inserter inserter;
 
 	public final static String RAID = "raid";

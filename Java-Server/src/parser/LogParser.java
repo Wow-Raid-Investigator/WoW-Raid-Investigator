@@ -12,7 +12,7 @@ import java.util.List;
 import handlers.Handler;
 import handlers.Inserter;
 
-public class LogParser {
+public class LogParser implements WowEventListener {
 
 	private final HashMap<Class, ArrayList<Handler>> subscribers;
 	private final Inserter inserter;
@@ -69,5 +69,12 @@ public class LogParser {
 		}
 
 		subscribers.get(type).add(inserter);
+	}
+
+	@Override
+	public void receive(Event event) {
+		if (event.type.equals(Event.ENCOUNTER_START.class)) {
+			inserter.incrementEncounter();
+		}
 	}
 }
