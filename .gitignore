@@ -280,3 +280,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Java-Server
+Java-Server/LOG_UPLOAD*
