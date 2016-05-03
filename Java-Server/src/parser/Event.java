@@ -67,27 +67,34 @@ public class Event {
 		
 		Map<String,String> fieldData = new HashMap<String,String>();
 		
+		// Check if this thing has the "basic" keys
+		
+		// I put this before the other loop so that
+		// if the schema below overwrites any fields,
+		// the unique ones from the particular event type
+		// will win out. DestGUID is overwritten by UnitGUID, for example.
+				try {
+					if (selected.getField("HasUnitKeys").getBoolean(null)) {
+						for (Field field : UnitKeys.class.getFields()) {
+							fieldData.put(field.getName(), data[field.getInt(null)]);
+						}
+					}
+				} catch (NoSuchFieldException | SecurityException e) {
+					// This shouldn't really happen, since this
+					// only gets invoked if we find a class that matches the
+					// event name
+					
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		
 		for (Field field : selected.getFields()) {
 			if (field.getType() == Integer.TYPE) {
 				fieldData.put(field.getName(), data[field.getInt(null)]);
 			}
 		}
 		
-		// Check if this thing has the "basic" keys
-		try {
-			if (selected.getField("HasUnitKeys").getBoolean(null)) {
-				for (Field field : UnitKeys.class.getFields()) {
-					fieldData.put(field.getName(), data[field.getInt(null)]);
-				}
-			}
-		} catch (NoSuchFieldException | SecurityException e) {
-			// This shouldn't really happen, since this
-			// only gets invoked if we find a class that matches the
-			// event name
-			
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 		return new Event(fieldData, selected, 0);
 	}

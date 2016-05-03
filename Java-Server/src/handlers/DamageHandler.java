@@ -26,10 +26,11 @@ public class DamageHandler extends Handler {
 			data.put(Handler.LOGNO, Handler.LOGNO);
 			data.put(Handler.TIMESTAMP, Long.toString(event.time));
 			data.put(Handler.SOURCE_GUID, "'" + event.data.get("SourceGUID") + "'");
-			data.put(Handler.TARGET_GUID, "'" + event.data.get("TargetGUID") + "'");
+			data.put(Handler.TARGET_GUID, "'" + event.data.get("DestGUID") + "'");
 			data.put(DamageHandler.DAMAGE, event.data.get("DamageDone"));
 			
 			insert("damage_dealt",data);
+			insert("damage_received",data);
 		}
 	}
 

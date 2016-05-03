@@ -11,6 +11,7 @@ import com.datastax.driver.core.Session;
 
 import handlers.DamageHandler;
 import handlers.Inserter;
+import handlers.KillHandler;
 import parser.Event;
 import parser.LogParser;
 
@@ -33,7 +34,7 @@ public class ParseHandle {
 		// many parsers going at once
 
 		parser.register(new DamageHandler(inserter), Event.SWING_DAMAGE.class);
-		
+		parser.register(new KillHandler(inserter), Event.UNIT_DIED.class);
 		parser.parseFile(filename);
 		
 		session.close();
