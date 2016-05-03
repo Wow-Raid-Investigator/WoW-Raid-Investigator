@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import inserters.Handler;
-import inserters.Inserter;
+import handlers.Handler;
+import handlers.Inserter;
 
 public class LogParser {
 

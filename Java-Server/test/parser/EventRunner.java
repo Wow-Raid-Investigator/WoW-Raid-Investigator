@@ -1,7 +1,7 @@
 package parser;
 
-import inserters.DamageHandler;
-import inserters.MockInserter;
+import handlers.DamageHandler;
+import handlers.MockInserter;
 
 public class EventRunner {
 	public static void main(String args[]) {

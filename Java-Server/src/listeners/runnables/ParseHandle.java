@@ -9,8 +9,8 @@ import java.io.IOException;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
-import inserters.DamageHandler;
-import inserters.Inserter;
+import handlers.DamageHandler;
+import handlers.Inserter;
 import parser.Event;
 import parser.LogParser;
 
