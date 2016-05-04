@@ -4,14 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.Session;
-
-import handlers.DamageHandler;
-import handlers.Inserter;
-import parser.Event;
-import parser.LogParser;
-
 public class UploadHandle implements Runnable {
 
 	private Socket client;
@@ -42,12 +34,26 @@ public class UploadHandle implements Runnable {
 			stream.close();
 			client.close();
 			
-			ParseHandle.execute(fileName);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.printf("Client %s caused a read exception durring file upload, Disconnecting Client\n", client.getInetAddress());
+			try {
+				client.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return;
 		}
+		
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				ParseHandle.execute(fileName);
+			}
+		}).start();
 	}
 
 }
