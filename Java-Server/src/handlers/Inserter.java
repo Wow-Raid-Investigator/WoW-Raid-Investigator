@@ -33,16 +33,20 @@ public class Inserter {
 		
 		for (String str : data.keySet()) {
 			paramStr += str + ",";
-			if (str.equals(Handler.RAID)) {
-				valueStr += raid + ",";
-			} else if (str.equals(Handler.ENCOUNTER)){
+			
+			switch(str) {
+			case Handler.RAID:
+				valueStr += raid + ",";				
+				break;
+			case Handler.ENCOUNTER:
 				valueStr += encounter + ",";
-			} else if (str.equals(Handler.LOGNO)) {
+				break;
+			case Handler.LOGNO:
 				valueStr += index + ",";
-			} else {
+				break;
+			default:
 				valueStr += data.get(str) + ",";
 			}
-			
 		}
 		
 		paramStr = paramStr.substring(0,paramStr.length()-1);
