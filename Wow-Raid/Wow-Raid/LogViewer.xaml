@@ -18,9 +18,9 @@
                       CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}"
                       AlternatingRowBackground="Azure" SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="LogID" Binding="{Binding id}" />
-                    <DataGridTextColumn Header="Date" Binding="{Binding date}" />
-                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="*"/>
+                    <DataGridTextColumn Header="LogID" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>

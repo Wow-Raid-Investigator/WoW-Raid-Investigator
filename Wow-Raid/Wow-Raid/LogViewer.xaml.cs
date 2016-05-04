@@ -13,49 +13,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wow_Raid.LogClasses;
 
 namespace Wow_Raid
 {
-    public class Log
-    {
-        private String _id;
-        private DateTime _date;
-        private String _description;
-
-        public String id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
-        public DateTime date
-        {
-            get { return _date; }
-            set { _date = value; }
-        }
-
-        public String description
-        {
-            get { return _description; }
-            set { _description = value; }
-        }
-    }
     /// <summary>
     /// Interaction logic for LogViewer.xaml
     /// </summary>
     public partial class LogViewer : Page
     {
-        public ObservableCollection<Log> data = new ObservableCollection<Log>();
+        public ObservableCollection<RaidHeader> data = new ObservableCollection<RaidHeader>();
         public LogViewer()
         {
             InitializeComponent();
-
-            data.Add(new Log() { id = "1", date = new DateTime(), description = "First log uploaded." });
-            data.Add(new Log() { id = "2", date = new DateTime(), description = "Hmm... Description?" });
-            data.Add(new Log() { id = "3", date = new DateTime(), description = "How long can we make this description out of curiosity?" });
-            data.Add(new Log() { id = "4", date = new DateTime(), description = "Welp. Jeez. A lot of WoW was played today." });
-            data.Add(new Log() { id = "5", date = new DateTime(), description = "Is Date the Date of the encounter or the date it was uploaded?" });
-            data.Add(new Log() { id = "6", date = new DateTime(), description = "Heck if I know." });
+            RaidHeader[] headers = Perst.Instance.getRaidHeaders();
+            foreach(RaidHeader header in headers)
+            {
+                data.Add(header);
+            }
             logTable.DataContext = data;
         }
 
@@ -63,12 +38,11 @@ namespace Wow_Raid
         {
             if (logTable.SelectedItems.Count != 0)
             {
-                Log row = (Log)logTable.SelectedItems[0];
-                Console.WriteLine(row.id);
+                RaidHeader row = (RaidHeader)logTable.SelectedItems[0];
+                NavigationService ns = this.NavigationService;
+                ns.Navigate(new StatsPage(row));
             }
 
-            NavigationService ns = this.NavigationService;
-            ns.Navigate(new StatsPage());
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using Perst;
+﻿using Cassandra;
+using Perst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wow_Raid.LogClasses;
 
 namespace Wow_Raid
 {
@@ -33,6 +35,7 @@ namespace Wow_Raid
 
         private Index root;
         private Storage db;
+        private Index damageIndex;
 
         private Perst ()
         {
@@ -41,11 +44,22 @@ namespace Wow_Raid
 
             root = (Index)db.Root;
 
+    
+
             if (root == null)
             {
                 root = db.CreateIndex(typeof(string), true);
                 db.Root = root;
+
+                damageIndex = db.CreateIndex(typeof(string), false);
+                root.Put("DamageIndex", damageIndex);
             }
+            else
+            {
+                damageIndex = (Index)root.Get("DamageIndex");
+            }
+            
+            
         }
 
         public void Shutdown()
@@ -58,12 +72,55 @@ namespace Wow_Raid
         {
             get
             {
-                return root[key];
+                return root.Get(key);
             }
             set
             {
-                root[key] = value;
+                root.Put(key, value);
             }
+        }
+
+        public DamageEvent[] getDamgeForRaidEncoutner(int raid, int encounter, bool forceRefresh = false)
+        {
+            DamageEvent[] events;
+            if (forceRefresh)
+            {
+                events = DamageEvent.convert(Cassandra.Instance.GetDamgeForRaidEncounter(raid, encounter));
+                foreach (DamageEvent evt in events)
+                {
+                    damageIndex.Put(evt.getKey(), evt);
+                }
+                return events;
+            }
+
+            events = (DamageEvent[])damageIndex.GetPrefix(DamageEvent.getRaidEncounterPrefix(raid, encounter));
+
+            if (events.Length == 0)
+                return getDamgeForRaidEncoutner(raid, encounter, true);
+
+            return events;
+
+        }
+
+        public RaidHeader[] getRaidHeaders(bool forceRefresh = false)
+        {
+            RaidHeader[] events;
+            if (forceRefresh)
+            {
+                RowSet set = Cassandra.Instance.GetRaidHeaders();
+                events = RaidHeader.convert(set);
+
+                root.Put("RaidHeaders", events);
+    
+                return events;
+            }
+
+            events = (RaidHeader[])root.Get("RaidHeaders");
+
+            if (events == null || events.Length == 0)
+                return getRaidHeaders(true);
+
+            return events;
         }
 
     }

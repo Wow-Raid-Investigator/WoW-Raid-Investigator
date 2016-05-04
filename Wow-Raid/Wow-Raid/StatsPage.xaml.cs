@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wow_Raid.LogClasses;
 
 namespace Wow_Raid
 {
@@ -24,8 +25,10 @@ namespace Wow_Raid
     {
         public ObservableCollection<RaidRow> raids = new ObservableCollection<RaidRow>();
         public ObservableCollection<PlayerRow> players = new ObservableCollection<PlayerRow>();
-        public StatsPage()
+        public StatsPage(RaidHeader row)
         {
+            DamageEvent[] events = Perst.Instance.getDamgeForRaidEncoutner(row.Raid, row.Encounter);
+
             // Temporary solution because I got tired of figuring out a way to bind them.
             raids.Add(new RaidRow() { player = "Druid1", totalHealing = "10M", healingPerSecond = "250Khps", totalDamage = "5M", damagePerSecond = "125Kdps" });
             raids.Add(new RaidRow() { player = "Paladin1", totalHealing = "4M", healingPerSecond = "125Khps", totalDamage = "15M", damagePerSecond = "325Kdps" });
@@ -48,6 +51,13 @@ namespace Wow_Raid
             raidTable.DataContext = raids;
             playerTable.DataContext = players;
 
+        }
+
+        private void viewSelectedPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 2;
+
+            // TODO: Update Player Data
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +16,7 @@ namespace Wow_Raid
             TcpClient client = new TcpClient();
             try
             {
-                client.Connect(Properties.Settings.Default.ServerIP, Constants.FILE_PORT);
+                client.Connect(Properties.Settings.Default.ServerIP, Properties.Settings.Default.FileServerPort);
                 FileStream fs = new FileStream(file, FileMode.Open);
                 long length = fs.Length;
 

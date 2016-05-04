@@ -34,5 +34,17 @@ namespace Wow_Raid.Properties {
                 this["ServerIP"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7777")]
+        public int FileServerPort {
+            get {
+                return ((int)(this["FileServerPort"]));
+            }
+            set {
+                this["FileServerPort"] = value;
+            }
+        }
     }
 }

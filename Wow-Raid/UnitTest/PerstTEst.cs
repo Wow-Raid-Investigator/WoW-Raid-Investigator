@@ -5,7 +5,7 @@ using Wow_Raid;
 namespace UnitTest
 {
     [TestClass]
-    public class UnitTest1
+    public class PerstTest
     {
         [TestMethod]
         public void TestPerstBasic()

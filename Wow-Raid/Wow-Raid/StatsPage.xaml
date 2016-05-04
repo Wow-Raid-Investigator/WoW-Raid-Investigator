@@ -9,7 +9,7 @@
       Title="StatsPage">
 
     <Grid Background="White">
-        <TabControl>
+        <TabControl x:Name="tabControl">
             <TabItem Header="Summary" Width="75">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Label x:Name="statsLabel" Content="Stats" FontSize="32" Margin="10,0,209,211" RenderTransformOrigin="-1.348,1.216"/>
@@ -21,10 +21,18 @@
             </TabItem>
             <TabItem Header="Raid" Width="75">
                 <Grid>
-                    <Label x:Name="raidLabel" Content="Raid" FontSize="32" Margin="10,0,209,211" RenderTransformOrigin="-1.348,1.216"/>
-                    <Rectangle x:Name="image2" HorizontalAlignment="Left" Fill="Coral" Height="201" Margin="266,57,0,0" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.524,0.496"/>
-                    <DataGrid x:Name="raidTable" HorizontalAlignment="Left" Height="201" Margin="10,57,0,0" VerticalAlignment="Top" Width="243"
-                              CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="191*"/>
+                        <ColumnDefinition Width="328*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle x:Name="image2" HorizontalAlignment="Left" Fill="Coral" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="499" RenderTransformOrigin="0.524,0.496" Grid.ColumnSpan="2"/>
+                    <DataGrid x:Name="raidTable" HorizontalAlignment="Left" Height="147" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
+                              CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral" Grid.ColumnSpan="2">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem x:Name="viewSelectedPlayer" Header="View Selected Player" Click="viewSelectedPlayer_Click"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Player" Binding="{Binding player}" />
                             <DataGridTextColumn Header="Total Healing" Binding="{Binding totalHealing}" />
@@ -38,9 +46,8 @@
             </TabItem>
             <TabItem Header="Player" Width="75">
                 <Grid>
-                    <Label x:Name="playerLabel" Content="Raid" FontSize="32" Margin="10,0,209,211" RenderTransformOrigin="-1.348,1.216"/>
-                    <Rectangle x:Name="image3" HorizontalAlignment="Left" Fill="Coral" Height="201" Margin="266,57,0,0" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.524,0.496"/>
-                    <DataGrid x:Name="playerTable" HorizontalAlignment="Left" Height="201" Margin="10,57,0,0" VerticalAlignment="Top" Width="243"
+                    <Rectangle x:Name="image3" HorizontalAlignment="Left" Fill="Coral" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="499" RenderTransformOrigin="0.524,0.496"/>
+                    <DataGrid x:Name="playerTable" HorizontalAlignment="Left" Height="147" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
                               CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Spell Name" Binding="{Binding spell}" />

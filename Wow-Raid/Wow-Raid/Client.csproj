@@ -35,12 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CassandraSharp, Version=3.6.0.0, Culture=neutral, PublicKeyToken=038f94e6e91ef981, processorArchitecture=MSIL">
-      <HintPath>..\packages\cassandra-sharp-core.3.6.0\lib\net45\CassandraSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="CassandraSharp.Interfaces, Version=3.6.0.0, Culture=neutral, PublicKeyToken=038f94e6e91ef981, processorArchitecture=MSIL">
-      <HintPath>..\packages\cassandra-sharp-interfaces.3.6.0\lib\net45\CassandraSharp.Interfaces.dll</HintPath>
+    <Reference Include="Cassandra, Version=3.0.0.0, Culture=neutral, PublicKeyToken=10b231fbfc8c4b4d, processorArchitecture=MSIL">
+      <HintPath>..\packages\CassandraCSharpDriver.3.0.5\lib\net40\Cassandra.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DynamicDataDisplay, Version=0.4.0.0, Culture=neutral, PublicKeyToken=5b7d744a7263923f, processorArchitecture=MSIL">
@@ -57,6 +53,10 @@
     </Reference>
     <Reference Include="DynamicDataDisplay.Markers2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5b7d744a7263923f, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicDataDisplayWpf.0.4.0\lib\DynamicDataDisplay.Markers2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LZ4, Version=1.0.5.93, Culture=neutral, PublicKeyToken=fd2bda0a70c5a705, processorArchitecture=MSIL">
+      <HintPath>..\packages\lz4net.1.0.5.93\lib\net40-client\LZ4.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Parser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5b7d744a7263923f, processorArchitecture=MSIL">
@@ -101,9 +101,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Cassandra.cs" />
     <Compile Include="HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LogClasses\DamageEvent.cs" />
+    <Compile Include="LogClasses\DamageEvent_Stats.cs" />
+    <Compile Include="LogClasses\RaidHeader.cs" />
     <Compile Include="LogViewer.xaml.cs">
       <DependentUpon>LogViewer.xaml</DependentUpon>
     </Compile>
@@ -189,14 +193,11 @@
       <Project>{1ff2e6ae-b540-4ea9-bd18-5f077ee61291}</Project>
       <Name>Perst.NET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{a7903bf6-dd78-4f12-9684-1eb994da184e}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="SplashScreen1.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
