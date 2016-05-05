@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wow_Raid.LogClasses;
+using Wow_Raid.Stat;
 
 namespace Wow_Raid
 {
@@ -80,26 +81,40 @@ namespace Wow_Raid
             }
         }
 
-        public DamageEvent[] getDamgeForRaidEncoutner(int raid, int encounter, bool forceRefresh = false)
+        public DamageEvent[] getDamageForRaidEncounter(int raid, int encounter, bool forceRefresh = false)
         {
-            DamageEvent[] events;
             if (forceRefresh)
             {
-                events = DamageEvent.convert(Cassandra.Instance.GetDamgeForRaidEncounter(raid, encounter));
-                foreach (DamageEvent evt in events)
+                List<DamageEvent> list = DamageEvent.convert(Cassandra.Instance.GetDamgeForRaidEncounter(raid, encounter));
+                foreach (DamageEvent evt in list)
                 {
                     damageIndex.Put(evt.getKey(), evt);
                 }
-                return events;
+                return list.ToArray();
             }
 
-            events = (DamageEvent[])damageIndex.GetPrefix(DamageEvent.getRaidEncounterPrefix(raid, encounter));
+            object[] temp = damageIndex.GetPrefix(DamageEvent.getRaidEncounterPrefix(raid, encounter));
 
-            if (events.Length == 0)
-                return getDamgeForRaidEncoutner(raid, encounter, true);
+            if (temp.Length == 0)
+                return getDamageForRaidEncounter(raid, encounter, true);
 
-            return events;
+            return convertToList<DamageEvent>(temp).ToArray();
 
+        }
+
+        private List<T> convertToList<T>(object[] array)
+        {
+            List<T> list = new List<T>();
+
+            foreach(object j in array)
+            {
+                if(j is T)
+                {
+                    list.Add((T)j);
+                }
+            }
+
+            return list;
         }
 
         public RaidHeader[] getRaidHeaders(bool forceRefresh = false)
@@ -121,6 +136,54 @@ namespace Wow_Raid
                 return getRaidHeaders(true);
 
             return events;
+        }
+
+        public UnitTotalDamage getTotalDamageBySource(int raid, int encounter, String Source, bool forceRefresh = false)
+        {
+            UnitTotalDamage damage;
+            if (forceRefresh)
+            {
+                DamageEvent[] events = getDamageForRaidEncounter(raid, encounter);
+
+                foreach (UnitTotalDamage unit in DamageEvent.groupBySource(events))
+                {
+                    damageIndex.Set(String.Format(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, unit.Source)), unit);
+                }
+
+                damage = (UnitTotalDamage) damageIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
+
+                if (damage == null)
+                    throw new ArgumentOutOfRangeException(Source + " does not exist in the encounter");
+                else
+                    return damage;
+            }
+
+            damage = (UnitTotalDamage) damageIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
+
+            if(damage == null)
+            {
+                return getTotalDamageBySource(raid, encounter, Source, true);
+            } else
+            {
+                return (UnitTotalDamage) damage;
+            }
+        }
+
+        public UnitTotalDamage[] getInvolvedUnitsDamage(int raid, int encounter, bool foreceRefresh = false)
+        {
+            List<UnitTotalDamage> array = convertToList<UnitTotalDamage>(damageIndex.GetPrefix(String.Format("TOTAL:{0}:{1}:", raid, encounter)));
+
+            if (array.Count == 0)
+            {
+                try
+                {
+                    getTotalDamageBySource(raid, encounter, "", true);
+                } catch (ArgumentOutOfRangeException) { }
+
+                array = convertToList<UnitTotalDamage>(damageIndex.GetPrefix(String.Format("TOTAL:{0}:{1}:", raid, encounter)));
+            }
+
+            return array.ToArray();
         }
 
     }

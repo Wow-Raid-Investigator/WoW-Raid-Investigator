@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wow_Raid.LogClasses;
+using Wow_Raid.Stat;
 
 namespace Wow_Raid
 {
@@ -23,19 +24,22 @@ namespace Wow_Raid
     /// </summary>
     public partial class StatsPage : Page
     {
-        public ObservableCollection<RaidRow> raids = new ObservableCollection<RaidRow>();
+        public ObservableCollection<RaidDamageRow> raids = new ObservableCollection<RaidDamageRow>();
         public ObservableCollection<PlayerRow> players = new ObservableCollection<PlayerRow>();
+
         public StatsPage(RaidHeader row)
         {
-            DamageEvent[] events = Perst.Instance.getDamgeForRaidEncoutner(row.Raid, row.Encounter);
+            DamageEvent[] events = Perst.Instance.getDamageForRaidEncounter(row.Raid, row.Encounter);
 
+            UnitTotalDamage[] damageRaidArray = Perst.Instance.getInvolvedUnitsDamage(row.Raid, row.Encounter);
+
+            long totalDamge = 0;
+            foreach(UnitTotalDamage damage in damageRaidArray)
+            {
+                raids.Add(new RaidDamageRow(damage, row.EncounterTime));
+                totalDamge += damage.Damage;
+            }
             // Temporary solution because I got tired of figuring out a way to bind them.
-            raids.Add(new RaidRow() { player = "Druid1", totalHealing = "10M", healingPerSecond = "250Khps", totalDamage = "5M", damagePerSecond = "125Kdps" });
-            raids.Add(new RaidRow() { player = "Paladin1", totalHealing = "4M", healingPerSecond = "125Khps", totalDamage = "15M", damagePerSecond = "325Kdps" });
-            raids.Add(new RaidRow() { player = "Druid2", totalHealing = "10M", healingPerSecond = "250Khps", totalDamage = "5M", damagePerSecond = "125Kdps" });
-            raids.Add(new RaidRow() { player = "Paladin2", totalHealing = "4M", healingPerSecond = "125Khps", totalDamage = "15M", damagePerSecond = "325Kdps" });
-            raids.Add(new RaidRow() { player = "Druid2", totalHealing = "10M", healingPerSecond = "250Khps", totalDamage = "5M", damagePerSecond = "125Kdps" });
-            raids.Add(new RaidRow() { player = "Paladin2", totalHealing = "4M", healingPerSecond = "125Khps", totalDamage = "15M", damagePerSecond = "325Kdps" });
 
 
             players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
@@ -47,7 +51,7 @@ namespace Wow_Raid
 
 
             InitializeComponent();
-            statsDescription.DataContext = new statText("Average HPS: 190Khps\nAverage DPS: 30Kdps\nPlayeres: 10\nTotal healing: 20M\nTotal Damage: 10M\nFight Length: 2m 34s");
+            statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", 2000, totalDamge / row.EncounterTime, damageRaidArray.Length, 50000, totalDamge, row.EncounterTime));
             raidTable.DataContext = raids;
             playerTable.DataContext = players;
 
@@ -91,45 +95,6 @@ namespace Wow_Raid
         }
 
         #endregion
-    }
-
-    public class RaidRow
-    {
-        private String _player;
-        private String _totalHealing;
-        private String _healingPerSecond;
-        private String _totalDamage;
-        private String _damagePerSecond;
-
-        public String player
-        {
-            get { return _player; }
-            set { _player = value; }
-        }
-
-        public String totalHealing
-        {
-            get { return _totalHealing; }
-            set { _totalHealing = value; }
-        }
-
-        public String healingPerSecond
-        {
-            get { return _healingPerSecond; }
-            set { _healingPerSecond = value; }
-        }
-
-        public String totalDamage
-        {
-            get { return _totalDamage; }
-            set { _totalDamage = value; }
-        }
-
-        public String damagePerSecond
-        {
-            get { return _damagePerSecond; }
-            set { _damagePerSecond = value; }
-        }
     }
 
     public class PlayerRow
@@ -177,6 +142,5 @@ namespace Wow_Raid
             set { _multistrike = value; }
         }
     }
-
 
 }

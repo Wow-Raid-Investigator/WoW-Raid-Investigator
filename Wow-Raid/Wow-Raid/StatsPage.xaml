@@ -34,11 +34,9 @@
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Player" Binding="{Binding player}" />
-                            <DataGridTextColumn Header="Total Healing" Binding="{Binding totalHealing}" />
-                            <DataGridTextColumn Header="Healing Per Second" Binding="{Binding healingPerSecond}" />
-                            <DataGridTextColumn Header="Total Damage" Binding="{Binding totalDamage}" />
-                            <DataGridTextColumn Header="Damage Per Second" Binding="{Binding damagePerSecond}" Width="*" />
+                            <DataGridTextColumn Header="Player" Binding="{Binding Source}" />
+                            <DataGridTextColumn Header="Total Damage" Binding="{Binding TotalDamage}" />
+                            <DataGridTextColumn Header="Damage Per Second" Binding="{Binding DamagePerSecond}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
 

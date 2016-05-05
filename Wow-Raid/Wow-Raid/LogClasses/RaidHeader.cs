@@ -11,6 +11,7 @@ namespace Wow_Raid.LogClasses
     {
         int raid;
         int encounter;
+        long encounterTime;
 
         private DateTime _date;
         private String _description;
@@ -40,12 +41,22 @@ namespace Wow_Raid.LogClasses
             get { return _description; }
         }
 
+        public long EncounterTime
+        {
+            get
+            {
+                return encounterTime;
+            }
+        }
+
         public RaidHeader(Row row)
         {
             this.raid = (int)row["raid"];
             this.encounter = (int)row["encounter"];
             this._date = DateTime.Now;
             this._description = "Not Set";
+
+            this.encounterTime = 120;
         }
 
         public static RaidHeader[] convert(RowSet set)

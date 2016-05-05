@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wow_Raid.Stat;
 
 namespace Wow_Raid.LogClasses
 {
@@ -13,11 +14,9 @@ namespace Wow_Raid.LogClasses
             return events.Sum(x => x.damage);
         }
 
-        public static IEnumerable groupBySource(DamageEvent[] events)
+        public static IEnumerable<UnitTotalDamage> groupBySource(DamageEvent[] events)
         {
-            var a = events.GroupBy(x => x.source).Select(p => new {Source = p.Key, TotalDamge = p.Sum(d => d.damage) });
-            // Source
-            // Total Damage
+            return events.GroupBy(x => x.source).Select(p => new UnitTotalDamage(p.Key, p.Sum(d => d.damage)) );
         }
     }
 }

@@ -12,9 +12,9 @@ namespace Wow_Raid.LogClasses
     {
         int raid;
         int encounter;
-        long logno;
-        long damage;
-        long timestamp;
+        int logno;
+        int damage;
+        double timestamp;
 
 
         String source;
@@ -24,23 +24,22 @@ namespace Wow_Raid.LogClasses
         {
             this.raid = (int)row["raid"];
             this.encounter = (int)row["encounter"];
-            this.logno = (long)row["logno"];
-            this.damage = (long)row["damage"];
-            this.timestamp = (long)row["timestamp"];
+            this.logno = (int)row["logno"];
+            this.damage = (int)row["damage"];
+            this.timestamp = (double)row["timestamp"];
 
 
             this.source = (String)row["source"];
             this.target = (String)row["target"];
         }
 
-        public static DamageEvent[] convert(RowSet set)
+        public static List<DamageEvent> convert(RowSet set)
         {
-            DamageEvent[] events = new DamageEvent[set.Count()];
-
-            int index = 0;
+            List<DamageEvent> events = new List<DamageEvent>();
+            
             foreach(Row row in set)
             {
-                events[index++] = new DamageEvent(row);
+                events.Add(new DamageEvent(row));
             }
 
             return events;
@@ -48,7 +47,7 @@ namespace Wow_Raid.LogClasses
 
         internal string getKey()
         {
-            return String.Format("{0}:{1}:{2}", raid, encounter, source);
+            return String.Format("{0}:{1}:{2}:", raid, encounter, source);
         }
 
         public static string getRaidEncounterPrefix(int raid, int encounter)

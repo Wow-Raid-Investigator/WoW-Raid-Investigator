@@ -111,9 +111,11 @@
     <Compile Include="LogViewer.xaml.cs">
       <DependentUpon>LogViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RaidDamageRow.cs" />
     <Compile Include="StatsPage.xaml.cs">
       <DependentUpon>StatsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Stat\UnitTotalDamage.cs" />
     <Compile Include="UploadPopup.xaml.cs">
       <DependentUpon>UploadPopup.xaml</DependentUpon>
     </Compile>
