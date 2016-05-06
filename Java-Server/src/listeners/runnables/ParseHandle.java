@@ -10,6 +10,7 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
 import handlers.DamageHandler;
+import handlers.HealingHandler;
 import handlers.Inserter;
 import handlers.KillHandler;
 import parser.Event;
@@ -33,8 +34,18 @@ public class ParseHandle {
 		// We can't just do it once, since we might have
 		// many parsers going at once
 
-		parser.register(new DamageHandler(inserter), Event.SWING_DAMAGE.class);
+		DamageHandler damage = new DamageHandler(inserter);
+		parser.register(damage, Event.SWING_DAMAGE.class);
+		parser.register(damage, Event.RANGE_DAMAGE.class);
+		parser.register(damage, Event.SPELL_DAMAGE.class);
+		parser.register(damage, Event.SPELL_PERIODIC_DAMAGE.class);
+		
 		parser.register(new KillHandler(inserter), Event.UNIT_DIED.class);
+		
+		HealingHandler heal = new HealingHandler(inserter);
+		
+		parser.register(heal, Event.SPELL_HEAL.class);
+		parser.register(heal, Event.SPELL_PERIODIC_HEAL.class);
 		parser.parseFile(filename);
 		
 		session.close();

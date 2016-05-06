@@ -1,18 +1,13 @@
 package handlers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import com.datastax.driver.core.Session;
 
 import parser.Event;
 
-public class DamageHandler extends Handler {
+public class HealingHandler extends Handler {
+	private static final String HEALING = "healing";
 
-	private static final String DAMAGE = "damage";
-
-	public DamageHandler(Inserter inserter) {
+	public HealingHandler(Inserter inserter) {
 		super(inserter);
 	}
 
@@ -26,10 +21,9 @@ public class DamageHandler extends Handler {
 		data.put(Handler.TIMESTAMP, Long.toString(event.time));
 		data.put(Handler.SOURCE_GUID, "'" + event.data.get("SourceGUID") + "'");
 		data.put(Handler.TARGET_GUID, "'" + event.data.get("DestGUID") + "'");
-		data.put(DamageHandler.DAMAGE, event.data.get("DamageDone"));
+		data.put(HealingHandler.HEALING, event.data.get("HealAmount"));
 
-		insert("damage_dealt", data);
-		insert("damage_received", data);
+		insert("healing_dealt", data);
+		insert("healing_received", data);
 	}
-
 }
