@@ -14,12 +14,12 @@ import handlers.Inserter;
 
 public class LogParser implements WowEventListener {
 
-	private final HashMap<Class, ArrayList<Handler>> subscribers;
+	private final HashMap<Class, ArrayList<WowEventListener>> subscribers;
 	private final Inserter inserter;
 	
 	public LogParser(Inserter inserter) {
 		this.inserter = inserter;
-		subscribers = new HashMap<Class, ArrayList<Handler>>();
+		subscribers = new HashMap<Class, ArrayList<WowEventListener>>();
 	}
 
 	public void parseFile(String path) {
@@ -49,10 +49,10 @@ public class LogParser implements WowEventListener {
 		Event event;
 		try {
 			event = Event.parseLine(line);
-			List<Handler> listeners = subscribers.get(event.type);
+			List<WowEventListener> listeners = subscribers.get(event.type);
 
 			if (listeners != null) {
-				for (Handler listener : listeners) {
+				for (WowEventListener listener : listeners) {
 					listener.receive(event);
 				}
 			}
@@ -63,12 +63,15 @@ public class LogParser implements WowEventListener {
 
 	}
 
-	public void register(Handler inserter, Class type) {
+	public void register(WowEventListener inserter, Class type) {
 		if (subscribers.get(type) == null) {
-			subscribers.put(type, new ArrayList<Handler>());
+			subscribers.put(type, new ArrayList<WowEventListener>());
 		}
 
 		subscribers.get(type).add(inserter);
+		
+		System.out.println(type);
+		System.out.println(subscribers.get(type));
 	}
 
 	@Override

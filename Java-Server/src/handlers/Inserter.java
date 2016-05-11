@@ -2,6 +2,7 @@ package handlers;
 
 import java.util.HashMap;
 
+import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
 
 public class Inserter {
@@ -12,15 +13,17 @@ public class Inserter {
 	
 	private int index;
 	
-	public Inserter(Session session, int raid) {
+	public Inserter(Session session) {
 		this.session = session;
-		this.raid = raid;
+		ResultSet result = session.execute("SELECT max(raid) from metadata");
+		raid = result.one().getInt(0) + 1;
 		this.encounter = 0;
 		this.index = 0;
 	}
 	
 	public void incrementEncounter() {
 		this.encounter++;
+		System.out.println("++");
 	}
 	
 	public void incrementIndex() {

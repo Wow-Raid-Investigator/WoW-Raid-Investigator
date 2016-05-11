@@ -1,11 +1,5 @@
 package listeners.runnables;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
@@ -13,6 +7,7 @@ import handlers.DamageHandler;
 import handlers.HealingHandler;
 import handlers.Inserter;
 import handlers.KillHandler;
+import handlers.MetaHandler;
 import parser.Event;
 import parser.LogParser;
 
@@ -26,7 +21,7 @@ public class ParseHandle {
 		Session session = cluster.connect("wowraid");
 
 		// TODO raid number
-		Inserter inserter = new Inserter(session, 1);
+		Inserter inserter = new Inserter(session);
 
 		LogParser parser = new LogParser(inserter);
 
@@ -46,7 +41,18 @@ public class ParseHandle {
 		
 		parser.register(heal, Event.SPELL_HEAL.class);
 		parser.register(heal, Event.SPELL_PERIODIC_HEAL.class);
+		
+		MetaHandler meta = new MetaHandler(inserter);
+		
+		parser.register(parser, Event.ENCOUNTER_START.class);
+		parser.register(meta, Event.ENCOUNTER_START.class);
+		parser.register(meta, Event.ENCOUNTER_END.class);
+		
+		
+		
+		
 		parser.parseFile(filename);
+		
 		
 		session.close();
 	}

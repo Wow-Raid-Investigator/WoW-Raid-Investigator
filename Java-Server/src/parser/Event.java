@@ -78,7 +78,7 @@ public class Event {
 						for (Field field : UnitKeys.class.getFields()) {
 							fieldData.put(field.getName(), data[field.getInt(null)]);
 						}
-					}
+					} 
 				} catch (NoSuchFieldException | SecurityException e) {
 					// This shouldn't really happen, since this
 					// only gets invoked if we find a class that matches the

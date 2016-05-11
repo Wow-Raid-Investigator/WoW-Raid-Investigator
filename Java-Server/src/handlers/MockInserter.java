@@ -10,7 +10,7 @@ public class MockInserter extends Inserter {
 
 	private int index;
 	public MockInserter(Session session, int raid) {
-		super(session, raid);
+		super(session);
 		index = 1;
 	}
 
