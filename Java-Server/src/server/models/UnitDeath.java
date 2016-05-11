@@ -20,4 +20,9 @@ public class UnitDeath {
 	@EmbeddedId
 	public Key key;
 	public Long timestamp;
+
+	@Override
+	public String toString() {
+		return "UnitDeath("+key.unit+","+timestamp+")";
+	}
 }

@@ -22,4 +22,9 @@ public class DamageReceived {
 	public Integer damage;
 	public String source;
 	public Long timestamp;
+
+	@Override
+	public String toString() {
+		return "DamageReceived("+key.target+","+damage.toString()+","+source+")";
+	}
 }
