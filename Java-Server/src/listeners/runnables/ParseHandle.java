@@ -8,6 +8,7 @@ import handlers.HealingHandler;
 import handlers.Inserter;
 import handlers.KillHandler;
 import handlers.MetaHandler;
+import handlers.SpellCastHandler;
 import parser.Event;
 import parser.LogParser;
 
@@ -48,8 +49,9 @@ public class ParseHandle {
 		parser.register(meta, Event.ENCOUNTER_START.class);
 		parser.register(meta, Event.ENCOUNTER_END.class);
 		
+		SpellCastHandler spellCast = new SpellCastHandler(inserter);
 		
-		
+		parser.register(spellCast, Event.SPELL_CAST_SUCCESS.class);
 		
 		parser.parseFile(filename);
 		
