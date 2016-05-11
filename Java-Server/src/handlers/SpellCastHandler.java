@@ -2,12 +2,19 @@ package handlers;
 
 import java.util.HashMap;
 
+import com.datastax.driver.core.PreparedStatement;
+
 import parser.Event;
 
 public class SpellCastHandler extends Handler {
 
+	PreparedStatement spells_cast;
+	PreparedStatement spells_received;
+	
 	public SpellCastHandler(Inserter inserter) {
 		super(inserter);
+		spells_cast = inserter.getSession().prepare("insert into spells_cast (raid, encounter, logno, date, source, target, spell_id, spell_name, "
+				+ "spell_school values (?, ? ,?, ?, ?, ?, ?, ?, ?)");
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -22,10 +29,10 @@ public class SpellCastHandler extends Handler {
 		data.put(Handler.SOURCE_GUID, "'" + event.data.get("SourceGUID") + "'");
 		data.put(Handler.TARGET_GUID, "'" + event.data.get("DestGUID") + "'");
 		data.put("spell_id", event.data.get("CastSpellId"));
-		data.put("spell_name", "'" + event.data.get("CastSpellName").replaceAll("'", "@") + "'");
+		data.put("spell_name", "'" + event.data.get("CastSpellName") + "'");
 		data.put("spell_school", data.get("CastSpellSchool"));
 
-		insert("spells_cast", data);
+		insert(spells_cast, data);
 		insert("spells_received", data);
 	}
 

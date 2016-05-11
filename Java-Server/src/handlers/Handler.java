@@ -18,8 +18,7 @@ import parser.WowEventListener;
  * about the current raid and encounter #.
  */
 public abstract class Handler implements WowEventListener {
-	protected final Inserter inserter;
-
+	
 	public final static String RAID = "raid";
 	public final static String ENCOUNTER = "encounter";
 	public final static String LOGNO = "logno";
@@ -27,13 +26,15 @@ public abstract class Handler implements WowEventListener {
 	public final static String SOURCE_GUID = "source";
 	public final static String TARGET_GUID = "target";
 	
-	public Handler(Inserter inserter) {
-		this.inserter = inserter;
+	protected Session session;
+	protected int index;
+	
+	public Handler(Session session) {
+		this.session = session;
+		this.index = 1;
 	}
 	
-	protected void insert(String table, HashMap<String,String> data) {
-		inserter.insert(table, data);
-	}
+	public abstract void flush(int raid, int encounter);
 	
 	public abstract void receive(Event event);
 }

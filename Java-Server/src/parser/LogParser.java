@@ -7,18 +7,24 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import handlers.Handler;
-import handlers.Inserter;
 
-public class LogParser implements WowEventListener {
+public class LogParser {
 
+	private int raid;
+	private int encounter;
+	private final HashSet<Handler> handlers;
 	private final HashMap<Class, ArrayList<WowEventListener>> subscribers;
-	private final Inserter inserter;
+	private boolean inEncounter = false;
+	private boolean flushing = false;
 	
-	public LogParser(Inserter inserter) {
-		this.inserter = inserter;
+	public LogParser(int raid) {
+		this.raid = raid;
+		this.encounter = 0;
+		handlers = new HashSet<Handler>();
 		subscribers = new HashMap<Class, ArrayList<WowEventListener>>();
 	}
 
@@ -30,8 +36,13 @@ public class LogParser implements WowEventListener {
 			String line;
 			
 			while ((line = reader.readLine()) != null) {
-				inserter.incrementIndex();
 				parse(line);
+				if (flushing) {
+					flushing = false;
+					for (Handler handler : handlers) {
+						handler.flush(raid, encounter);
+					}
+				}
 			}
 			
 		} catch (FileNotFoundException e) {
@@ -49,13 +60,29 @@ public class LogParser implements WowEventListener {
 		Event event;
 		try {
 			event = Event.parseLine(line);
-			List<WowEventListener> listeners = subscribers.get(event.type);
+			
+			if (event.type == Event.ENCOUNTER_START.class){
+				this.encounter++;
+				this.inEncounter = true;
+			}
+			
+			if (inEncounter) {
+				List<WowEventListener> listeners = subscribers.get(event.type);
 
-			if (listeners != null) {
-				for (WowEventListener listener : listeners) {
-					listener.receive(event);
+				if (listeners != null) {
+					for (WowEventListener listener : listeners) {
+						listener.receive(event);
+					}
 				}
 			}
+			
+			if (event.type == Event.ENCOUNTER_END.class){
+				this.inEncounter = false;
+				for (Handler handler : handlers) {
+					handler.flush(raid, encounter);
+				}
+			}
+			
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,21 +90,17 @@ public class LogParser implements WowEventListener {
 
 	}
 
-	public void register(WowEventListener inserter, Class type) {
+	public void register(WowEventListener listener, Class type) {
 		if (subscribers.get(type) == null) {
 			subscribers.put(type, new ArrayList<WowEventListener>());
 		}
 
-		subscribers.get(type).add(inserter);
+		subscribers.get(type).add(listener);
 		
+		if (listener instanceof Handler) {
+			handlers.add((Handler) listener);
+		}
 		System.out.println(type);
 		System.out.println(subscribers.get(type));
-	}
-
-	@Override
-	public void receive(Event event) {
-		if (event.type.equals(Event.ENCOUNTER_START.class)) {
-			inserter.incrementEncounter();
-		}
 	}
 }
