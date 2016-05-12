@@ -1,8 +1,6 @@
 package handlers;
 
-import java.util.HashMap;
-import java.util.List;
-
+import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Session;
 
 import parser.Event;
@@ -27,7 +25,7 @@ public abstract class Handler implements WowEventListener {
 	public final static String TARGET_GUID = "target";
 	
 	protected Session session;
-	protected int index;
+	private int index;
 	
 	public Handler(Session session) {
 		this.session = session;
@@ -35,6 +33,14 @@ public abstract class Handler implements WowEventListener {
 	}
 	
 	public abstract void flush(int raid, int encounter);
+	
+	protected void do_flush(int raid, int encounter, BoundStatement statement) {
+		statement.setInt("raid", raid);
+		statement.setInt("encounter", encounter);
+		statement.setInt("logno", index);
+		this.session.execute(statement);
+		index++;
+	}
 	
 	public abstract void receive(Event event);
 }

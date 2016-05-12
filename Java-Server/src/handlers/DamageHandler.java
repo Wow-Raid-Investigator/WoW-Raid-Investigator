@@ -77,19 +77,8 @@ public class DamageHandler extends Handler {
 			BoundStatement bound_damage_dealt = container.getStatement(damage_dealt.bind());
 			BoundStatement bound_damage_taken = container.getStatement(damage_taken.bind());
 
-			bound_damage_dealt.setInt("raid", raid);
-			bound_damage_taken.setInt("raid", raid);
-
-			bound_damage_dealt.setInt("encounter", encounter);
-			bound_damage_taken.setInt("encounter", encounter);
-
-			bound_damage_dealt.setInt("logno", index);
-			bound_damage_taken.setInt("logno", index);
-
-			this.session.execute(bound_damage_dealt);
-			this.session.execute(bound_damage_taken);
-
-			this.index++;
+			do_flush(raid, encounter, bound_damage_dealt);
+			do_flush(raid, encounter, bound_damage_taken);
 		}
 	}
 

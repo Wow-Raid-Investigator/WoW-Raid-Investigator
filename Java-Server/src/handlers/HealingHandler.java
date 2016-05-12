@@ -69,19 +69,8 @@ public class HealingHandler extends Handler {
 			BoundStatement bound_healing_dealt = container.getStatement(healing_dealt.bind());
 			BoundStatement bound_healing_taken = container.getStatement(healing_taken.bind());
 
-			bound_healing_dealt.setInt("raid", raid);
-			bound_healing_taken.setInt("raid", raid);
-
-			bound_healing_dealt.setInt("encounter", encounter);
-			bound_healing_taken.setInt("encounter", encounter);
-
-			bound_healing_dealt.setInt("logno", index);
-			bound_healing_taken.setInt("logno", index);
-
-			this.session.execute(bound_healing_dealt);
-			this.session.execute(bound_healing_taken);
-
-			this.index++;
+			do_flush(raid, encounter, bound_healing_dealt);
+			do_flush(raid, encounter, bound_healing_taken);
 		}
 	}
 }
