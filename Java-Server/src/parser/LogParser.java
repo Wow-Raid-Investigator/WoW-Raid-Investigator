@@ -17,6 +17,7 @@ public class LogParser {
 	private int raid;
 	private int encounter;
 	private final HashSet<Handler> handlers;
+	private final ArrayList<WowEventListener> subscribersToAll;
 	private final HashMap<Class, ArrayList<WowEventListener>> subscribers;
 	private boolean inEncounter = false;
 	private boolean flushing = false;
@@ -25,6 +26,7 @@ public class LogParser {
 		this.raid = raid;
 		this.encounter = 0;
 		handlers = new HashSet<Handler>();
+		subscribersToAll = new ArrayList<WowEventListener>();
 		subscribers = new HashMap<Class, ArrayList<WowEventListener>>();
 	}
 
@@ -74,6 +76,10 @@ public class LogParser {
 						listener.receive(event);
 					}
 				}
+				
+				for (WowEventListener listener : subscribersToAll) {
+					listener.receive(event);
+				}
 			}
 			
 			if (event.type == Event.ENCOUNTER_END.class){
@@ -102,5 +108,13 @@ public class LogParser {
 		}
 		System.out.println(type);
 		System.out.println(subscribers.get(type));
+	}
+	
+	public void registerAll(WowEventListener listener) {
+		if (listener instanceof Handler) {
+			handlers.add((Handler) listener);
+		}
+		
+		subscribersToAll.add(listener);
 	}
 }

@@ -24,11 +24,11 @@ public class DamageHandler extends Handler {
 		super(session);
 		containers = new ArrayList<DamageHandlerContainer>();
 		damage_dealt = this.session.prepare(
-				"insert into damage_dealt (raid, encounter, logno, timestamp, source, target, damage, spell_id) "
-						+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
+				"insert into damage_dealt (raid, encounter, logno, timestamp, source, target, damage, spell_id, critical, multistrike) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		damage_taken = this.session.prepare(
-				"insert into damage_taken (raid, encounter, logno, timestamp, source, target, damage, spell_id) "
-						+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
+				"insert into damage_taken (raid, encounter, logno, timestamp, source, target, damage, spell_id, critical, multistrike) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	}
 
 	@Override
@@ -46,6 +46,10 @@ public class DamageHandler extends Handler {
 		} else {
 			container.spell_id = Integer.valueOf(event.data.get("CastSpellId"));
 		}
+		// Both nil and 0 should count as false here
+		
+		container.critical = event.data.get("Critical").equals("1");
+		container.multistrike = event.data.get("Multistrike").equals("1");
 		
 		containers.add(container);
 
@@ -58,6 +62,8 @@ public class DamageHandler extends Handler {
 		public String target;
 		public int damage;
 		public int spell_id;
+		public boolean critical;
+		public boolean multistrike;
 
 		@Override
 		public BoundStatement getStatement(BoundStatement input) {
@@ -66,7 +72,8 @@ public class DamageHandler extends Handler {
 			input.setString("target", target);
 			input.setInt("damage", damage);
 			input.setInt("spell_id", spell_id);
-
+			input.setBool("critical", critical);
+			input.setBool("multistrike", multistrike);
 			return input;
 		}
 	}

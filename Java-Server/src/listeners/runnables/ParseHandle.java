@@ -8,6 +8,10 @@ import handlers.DamageHandler;
 import handlers.HealingHandler;
 import parser.Event;
 import parser.LogParser;
+import redis.PlayerSpigot;
+import redis.RedisSpigot;
+import redis.SpellSpigot;
+import redis.clients.jedis.Jedis;
 
 public class ParseHandle {
 	public static void execute(String filename) {
@@ -48,6 +52,16 @@ public class ParseHandle {
 //		SpellCastHandler spellCast = new SpellCastHandler(inserter);
 //		
 //		parser.register(spellCast, Event.SPELL_CAST_SUCCESS.class);
+		
+		Jedis jedis = new Jedis("137.112.104.121");
+		
+		RedisSpigot spellSpigot = new SpellSpigot(jedis);
+		
+		parser.register(spellSpigot, Event.SPELL_CAST_SUCCESS.class);
+		
+		RedisSpigot playerSpigot = new PlayerSpigot(jedis);
+		
+		parser.registerAll(playerSpigot);
 		
 		parser.parseFile(filename);
 		
