@@ -13,6 +13,7 @@ import java.util.Map;
 // The event data is pulled from
 // https://github.com/NeilBostian/CombatLogParser/blob/master/CombatLogParser/EventInfo.cs
 public class Event {
+	public final static boolean HasUnitKeys = false;
 	public final Map<String, String> data;
 	public final Class type;
 	public final long time;
@@ -24,7 +25,7 @@ public class Event {
 		this.time = 0;
 	}
 
-	private Event(Map<String, String> data, Class type, int time) {
+	private Event(Map<String, String> data, Class type, long time) {
 		this.data = data;
 		this.type = type;
 		this.time = time;
@@ -32,11 +33,12 @@ public class Event {
 
 	public static Event parseLine(String line) throws IllegalArgumentException, IllegalAccessException {
 		List<Class> classes = Arrays.asList(Event.class.getDeclaredClasses());
-
+		
+		long time;
+		
 		String date = line.replaceAll("  .*", "");
 
-		long time;
-		SimpleDateFormat parser = new SimpleDateFormat("dd/MM HH:mm:ss");
+		SimpleDateFormat parser = new SimpleDateFormat("dd/MM HH:mm:ss.SSS");
 
 		try {
 			time = parser.parse(date).getTime();
@@ -94,7 +96,7 @@ public class Event {
 			}
 		}
 
-		return new Event(fieldData, selected, 0);
+		return new Event(fieldData, selected, time);
 	}
 
 	public class UnitKeys {

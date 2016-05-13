@@ -6,6 +6,7 @@ import com.datastax.driver.core.Session;
 
 import handlers.DamageHandler;
 import handlers.HealingHandler;
+import handlers.MetaHandler;
 import parser.Event;
 import parser.LogParser;
 import redis.PlayerSpigot;
@@ -43,11 +44,10 @@ public class ParseHandle {
 		parser.register(heal, Event.SPELL_HEAL.class);
 		parser.register(heal, Event.SPELL_PERIODIC_HEAL.class);
 		
-		//MetaHandler meta = new MetaHandler(inserter);
+		MetaHandler meta = new MetaHandler(session);
 		
-//		parser.register(parser, Event.ENCOUNTER_START.class);
-//		parser.register(meta, Event.ENCOUNTER_START.class);
-//		parser.register(meta, Event.ENCOUNTER_END.class);
+		parser.register(meta, Event.ENCOUNTER_START.class);
+		parser.register(meta, Event.ENCOUNTER_END.class);
 		
 //		SpellCastHandler spellCast = new SpellCastHandler(inserter);
 //		

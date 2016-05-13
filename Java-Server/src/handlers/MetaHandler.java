@@ -26,7 +26,9 @@ public class MetaHandler extends Handler {
 			MetaHandlerContainer container = new MetaHandlerContainer();
 			
 			container.timestamp = event.time;
-			container.description = event.data.get(Event.ENCOUNTER_START.EncounterName);
+			container.description = event.data.get("EncounterName");
+			
+			containers.add(container);
 		}
 	}
 
@@ -43,9 +45,9 @@ public class MetaHandler extends Handler {
 
 	@Override
 	public void flush(int raid, int encounter) {
+		System.out.println("flushing");
 		for (MetaHandlerContainer container : containers) {
 			BoundStatement bound_metadata = container.getStatement(metadata.bind());
-			
 			do_flush(raid, encounter, bound_metadata);
 		}
 		

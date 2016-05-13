@@ -16,13 +16,8 @@ public class PlayerSpigot extends RedisSpigot {
 			if (event.type.getField("HasUnitKeys").getBoolean(null)) {
 				String source = event.data.get("SourceGUID");
 				String dest = event.data.get("DestGUID");
-				if (source.contains("Player")) {
-					jedis.hset("players", source, event.data.get("SourceName"));
-				}
-				
-				if (dest.contains("Player")) {
-					jedis.hset("players", dest, event.data.get("DestName"));
-				}
+				//jedis.hset("units", source, event.data.get("SourceName"));
+				//jedis.hset("units", dest, event.data.get("DestName"));
 			}
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			// TODO Auto-generated catch block

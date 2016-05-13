@@ -32,20 +32,19 @@ public class LogParser {
 
 	public void parseFile(String path) {
 		File file = new File(path);
-		
+		int counter = 0;
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))){
 			
 			String line;
 			
 			while ((line = reader.readLine()) != null) {
 				parse(line);
-				if (flushing) {
-					flushing = false;
-					for (Handler handler : handlers) {
-						handler.flush(raid, encounter);
-					}
-				}
+				counter++;
+				if (counter % 1000 == 0)
+					System.out.println(counter);
 			}
+			
+			System.out.println("done");
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -84,6 +83,8 @@ public class LogParser {
 			
 			if (event.type == Event.ENCOUNTER_END.class){
 				this.inEncounter = false;
+				System.out.println("???");
+				System.out.println(handlers);
 				for (Handler handler : handlers) {
 					handler.flush(raid, encounter);
 				}
@@ -106,6 +107,7 @@ public class LogParser {
 		if (listener instanceof Handler) {
 			handlers.add((Handler) listener);
 		}
+		System.out.println(handlers);
 		System.out.println(type);
 		System.out.println(subscribers.get(type));
 	}
