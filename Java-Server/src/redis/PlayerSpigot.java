@@ -13,15 +13,15 @@ public class PlayerSpigot extends RedisSpigot {
 	@Override
 	public void receive(Event event) {
 		try {
-			if (event.type.getClass().getField("HasUnitKeys").getBoolean(null)) {
-				String source = event.data.get(Event.UnitKeys.SourceGUID);
-				String dest = event.data.get(Event.UnitKeys.DestGUID);
-				if (source.contains("PLAYER")) {
-					jedis.hset("players", source, event.data.get(Event.UnitKeys.SourceName));
+			if (event.type.getField("HasUnitKeys").getBoolean(null)) {
+				String source = event.data.get("SourceGUID");
+				String dest = event.data.get("DestGUID");
+				if (source.contains("Player")) {
+					jedis.hset("players", source, event.data.get("SourceName"));
 				}
 				
-				if (dest.contains("PLAYER")) {
-					jedis.hset("players", dest, event.data.get(Event.UnitKeys.DestName));
+				if (dest.contains("Player")) {
+					jedis.hset("players", dest, event.data.get("DestName"));
 				}
 			}
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {

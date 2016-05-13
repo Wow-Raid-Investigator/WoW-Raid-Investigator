@@ -87,6 +87,8 @@ public class DamageHandler extends Handler {
 			do_flush(raid, encounter, bound_damage_dealt);
 			do_flush(raid, encounter, bound_damage_taken);
 		}
+		
+		containers.clear();
 	}
 
 }

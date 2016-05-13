@@ -72,5 +72,7 @@ public class HealingHandler extends Handler {
 			do_flush(raid, encounter, bound_healing_dealt);
 			do_flush(raid, encounter, bound_healing_taken);
 		}
+		
+		containers.clear();
 	}
 }
