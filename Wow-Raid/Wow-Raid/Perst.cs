@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wow_Raid.LogClasses;
 using Wow_Raid.Stat;
+using StackExchange.Redis;
 
 namespace Wow_Raid
 {
@@ -14,6 +15,7 @@ namespace Wow_Raid
     {
         private static Perst instance;
         private static readonly object padlock = new object();
+        private static IDatabase redis = ConnectionMultiplexer.Connect("wow-raid-1.csse.rose-hulman.edu:6379").GetDatabase();
 
         public static Perst Instance
         {
@@ -32,6 +34,11 @@ namespace Wow_Raid
 
                 return instance;
             }
+        }
+
+        public string GetRedisTestValue(string key)
+        {
+            return redis.HashGet("spells", key);
         }
 
         private Index root;
@@ -167,6 +174,16 @@ namespace Wow_Raid
             {
                 return (UnitTotalDamage) damage;
             }
+        }
+
+        public string getSpellNameFromSpellID(int ID)
+        {
+            return ID.ToString();
+        }
+
+        public string getUnitNameFromGUID(string GUID)
+        {
+            return GUID;
         }
 
         public UnitTotalDamage[] getInvolvedUnitsDamage(int raid, int encounter, bool foreceRefresh = false)

@@ -32,5 +32,14 @@ namespace UnitTest
             }
         }
 
+        [TestMethod]
+        public void RedisPerstTest()
+        {
+            String key = "355";
+            string val = Perst.Instance.GetRedisTestValue(key);
+            Console.WriteLine(val);
+            Assert.AreEqual(val, "\"Taunt\"");
+        }
+
     }
 }
