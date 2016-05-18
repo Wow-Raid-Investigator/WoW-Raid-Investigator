@@ -14,6 +14,7 @@ namespace Wow_Raid.LogClasses
         int encounter;
         int logno;
         int damage;
+        int spellID;
         bool critical;
         bool multistrike;
         long timestamp;
@@ -28,6 +29,7 @@ namespace Wow_Raid.LogClasses
             this.encounter = (int)row["encounter"];
             this.logno = (int)row["logno"];
             this.damage = (int)row["damage"];
+            this.spellID = (int)row["spell_id"];
             this.critical = (bool) row["critical"];
             this.multistrike = (bool)row["multistrike"];
 
