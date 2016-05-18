@@ -13,7 +13,9 @@ namespace Wow_Raid.Stat
 
         public String Source
         {
-            get { return source; }
+            get {
+                return Perst.Instance.getUnitNameFromGUID(source);
+            }
         }
 
         public long Damage
