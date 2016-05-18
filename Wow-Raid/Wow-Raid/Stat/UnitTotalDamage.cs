@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wow_Raid.Stat
 {
-    public class UnitTotalDamage
+    public class UnitTotalDamage : UnitTotalEffect
     {
         String source;
         long damage;
