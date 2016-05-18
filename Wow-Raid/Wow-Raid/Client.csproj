@@ -112,6 +112,7 @@
     <Compile Include="LogClasses\DamageEvent.cs" />
     <Compile Include="LogClasses\DamageEvent_Stats.cs" />
     <Compile Include="LogClasses\RaidHeader.cs" />
+    <Compile Include="Stat\UnitSpellSum.cs" />
     <Compile Include="LogClasses\WowEvent.cs" />
     <Compile Include="LogViewer.xaml.cs">
       <DependentUpon>LogViewer.xaml</DependentUpon>

@@ -211,6 +211,5 @@ namespace Wow_Raid
 
             return array.ToArray();
         }
-
     }
 }

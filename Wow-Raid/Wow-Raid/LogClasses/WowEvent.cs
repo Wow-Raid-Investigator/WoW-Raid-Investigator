@@ -13,9 +13,9 @@ namespace Wow_Raid.LogClasses
         int encounter;
         int logno;
         int spellID;
-        bool critical;
-        bool multistrike;
-        long timestamp;
+        public bool critical;
+        public bool multistrike;
+        public long timestamp;
 
 
         private String source;
@@ -35,6 +35,15 @@ namespace Wow_Raid.LogClasses
                 return Perst.Instance.getUnitNameFromGUID(target);
             }
         }
+
+        public String SpellName
+        {
+            get
+            {
+                return Perst.Instance.getSpellNameFromSpellID(spellID);
+            }
+        }
+
 
 
         public WowEvent(Row row)
