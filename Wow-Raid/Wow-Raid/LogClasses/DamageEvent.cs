@@ -17,7 +17,7 @@ namespace Wow_Raid.LogClasses
             this.damage = (int)row["damage"];
         }
 
-        public static new List<DamageEvent> convert(RowSet set)
+        public static List<DamageEvent> convert(RowSet set)
         {
             List<DamageEvent> events = new List<DamageEvent>();
             

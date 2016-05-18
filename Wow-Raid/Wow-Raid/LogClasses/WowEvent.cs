@@ -53,18 +53,6 @@ namespace Wow_Raid.LogClasses
             this.target = (String)row["target"];
         }
 
-        public static List<WowEvent> convert(RowSet set)
-        {
-            List<WowEvent> events = new List<WowEvent>();
-
-            foreach (Row row in set)
-            {
-                events.Add(new WowEvent(row));
-            }
-
-            return events;
-        }
-
         public string getKey()
         {
             return String.Format("{0}:{1}:{2}:", raid, encounter, source);
