@@ -21,12 +21,8 @@
             </TabItem>
             <TabItem Header="Raid" Width="75">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="191*"/>
-                        <ColumnDefinition Width="328*"/>
-                    </Grid.ColumnDefinitions>
                     <Rectangle x:Name="image2" HorizontalAlignment="Left" Fill="Coral" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="499" RenderTransformOrigin="0.524,0.496" Grid.ColumnSpan="2"/>
-                    <DataGrid x:Name="raidTable" HorizontalAlignment="Left" Height="147" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
+                    <DataGrid x:Name="raidTable" HorizontalAlignment="Left" Height="135" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
                               CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral" Grid.ColumnSpan="2">
                         <DataGrid.ContextMenu>
                             <ContextMenu >
@@ -39,8 +35,9 @@
                             <DataGridTextColumn Header="Damage Per Second" Binding="{Binding DamagePerSecond}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-
+                    <Button x:Name="Toggle" Content="Healing" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Margin="0,0,0,-4" />
                 </Grid>
+                
             </TabItem>
             <TabItem Header="Player" Width="75">
                 <Grid>
@@ -59,12 +56,8 @@
 
                 </Grid>
             </TabItem>
-
-
-
-
-
         </TabControl>
+
 
     </Grid>
 </Page>
