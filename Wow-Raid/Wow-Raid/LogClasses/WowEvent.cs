@@ -74,5 +74,20 @@ namespace Wow_Raid.LogClasses
         {
             return String.Format("{0}:{1}:", raid, encounter);
         }
+
+        public static List<T> filterBySource<T>(String source, T[] array) where T : WowEvent
+        {
+            List<T> toReturn = new List<T>();
+
+            foreach(T evt in array)
+            {
+                if(evt.Source.Equals(source))
+                {
+                    toReturn.Add(evt);
+                }
+            }
+
+            return toReturn;
+        }
     }
 }
