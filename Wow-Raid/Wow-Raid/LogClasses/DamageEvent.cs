@@ -8,39 +8,16 @@ using Perst;
 
 namespace Wow_Raid.LogClasses
 {
-    public partial class DamageEvent
+    public partial class DamageEvent : WowEvent
     {
-        int raid;
-        int encounter;
-        int logno;
         int damage;
-        int spellID;
-        bool critical;
-        bool multistrike;
-        long timestamp;
-
-
-        String source;
-        String target;
-
-        public DamageEvent(Row row)
+     
+        public DamageEvent(Row row) : base(row)
         {
-            this.raid = (int)row["raid"];
-            this.encounter = (int)row["encounter"];
-            this.logno = (int)row["logno"];
             this.damage = (int)row["damage"];
-            this.spellID = (int)row["spell_id"];
-            this.critical = (bool) row["critical"];
-            this.multistrike = (bool)row["multistrike"];
-
-            this.timestamp = (long)row["timestamp"];
-
-
-            this.source = (String)row["source"];
-            this.target = (String)row["target"];
         }
 
-        public static List<DamageEvent> convert(RowSet set)
+        public static new List<DamageEvent> convert(RowSet set)
         {
             List<DamageEvent> events = new List<DamageEvent>();
             
@@ -50,16 +27,6 @@ namespace Wow_Raid.LogClasses
             }
 
             return events;
-        }
-
-        internal string getKey()
-        {
-            return String.Format("{0}:{1}:{2}:", raid, encounter, source);
-        }
-
-        public static string getRaidEncounterPrefix(int raid, int encounter)
-        {
-            return String.Format("{0}:{1}:", raid, encounter);
         }
     }
 }

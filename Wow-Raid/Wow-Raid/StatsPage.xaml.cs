@@ -42,12 +42,15 @@ namespace Wow_Raid
             // Temporary solution because I got tired of figuring out a way to bind them.
 
 
+
             players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
             players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
             players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
             players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
             players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
             players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
+
+
 
 
             InitializeComponent();
