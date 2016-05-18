@@ -54,6 +54,11 @@ namespace Wow_Raid
             }
         }
 
+        internal RowSet GetHealingForRaidEncounter(int raid, int encounter)
+        {
+            return session.Execute(String.Format("select * from healing_dealt where raid = {0} and encounter = {1}", raid, encounter));
+        }
+
         public RowSet GetDamgeForRaidEncounter(int raid, int encounter)
         {
             return session.Execute(String.Format("select * from damage_dealt where raid = {0} and encounter = {1}", raid, encounter));

@@ -109,6 +109,7 @@
     <Compile Include="HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LogClasses\HealingEvent.cs" />
     <Compile Include="LogClasses\DamageEvent.cs" />
     <Compile Include="LogClasses\DamageEvent_Stats.cs" />
     <Compile Include="LogClasses\RaidHeader.cs" />
@@ -121,6 +122,7 @@
       <DependentUpon>StatsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Stat\UnitTotalDamage.cs" />
+    <Compile Include="Stat\UnitTotalEffect.cs" />
     <Compile Include="UploadPopup.xaml.cs">
       <DependentUpon>UploadPopup.xaml</DependentUpon>
     </Compile>

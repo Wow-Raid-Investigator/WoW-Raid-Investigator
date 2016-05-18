@@ -41,6 +41,26 @@ namespace Wow_Raid
             return redis.HashGet("spells", key);
         }
 
+        internal HealingEvent[] getHealingForRaidEncounter(int raid, int encounter, bool forceRefresh = false)
+        {
+            if (forceRefresh)
+            {
+                List<HealingEvent> list = HealingEvent.convert(Cassandra.Instance.GetHealingForRaidEncounter(raid, encounter));
+                foreach (HealingEvent evt in list)
+                {
+                    damageIndex.Put(evt.getKey(), evt);
+                }
+                return list.ToArray();
+            }
+
+            object[] temp = damageIndex.GetPrefix(DamageEvent.getRaidEncounterPrefix(raid, encounter));
+
+            if (temp.Length == 0)
+                return getHealingForRaidEncounter(raid, encounter, true);
+
+            return convertToList<HealingEvent>(temp).ToArray();
+        }
+
         private Index root;
         private Storage db;
         private Index damageIndex;
@@ -211,6 +231,5 @@ namespace Wow_Raid
 
             return array.ToArray();
         }
-
     }
 }
