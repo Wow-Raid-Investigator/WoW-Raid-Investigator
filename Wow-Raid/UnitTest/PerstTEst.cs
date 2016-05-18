@@ -35,10 +35,13 @@ namespace UnitTest
         [TestMethod]
         public void RedisPerstTest()
         {
-            String key = "355";
-            string val = Perst.Instance.GetRedisTestValue(key);
-            Console.WriteLine(val);
-            Assert.AreEqual(val, "\"Taunt\"");
+            String key1 = "355";
+            string val1 = Perst.Instance.GetRedisTestValue(key1);
+            Assert.AreEqual(val1, "\"Taunt\"");
+
+            String key2 = "xxx";
+            string val2 = Perst.Instance.GetRedisTestValue(key2);
+            Assert.AreEqual(val2, null);
         }
 
     }

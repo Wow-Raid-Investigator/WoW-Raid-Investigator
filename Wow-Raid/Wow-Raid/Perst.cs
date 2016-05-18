@@ -178,12 +178,21 @@ namespace Wow_Raid
 
         public string getSpellNameFromSpellID(int ID)
         {
-            return ID.ToString();
+            string id = ID.ToString();
+            string val = redis.HashGet("spells", id);
+
+            if (val == null)
+                return id;
+
+            return val;
         }
 
         public string getUnitNameFromGUID(string GUID)
         {
-            return GUID;
+            string val = redis.HashGet("units", GUID);
+            if (val == null)
+                return GUID;
+            return val;
         }
 
         public UnitTotalDamage[] getInvolvedUnitsDamage(int raid, int encounter, bool foreceRefresh = false)
