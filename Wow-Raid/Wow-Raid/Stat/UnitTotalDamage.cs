@@ -10,22 +10,17 @@ namespace Wow_Raid.Stat
     {
         String source;
         long damage;
-
-        public String Source
-        {
-            get {
-                return Perst.Instance.getUnitNameFromGUID(source);
-            }
-        }
+        private int hitCount;
+        private double critPercet;
+        private double multistrikePercent;
 
         public long Damage
         {
             get { return damage; }
         }
 
-        public UnitTotalDamage(String source, long damage)
+        public UnitTotalDamage(String source, long damage, int v1, double v2, double v3) : base(source, v1, v2, v3)
         {
-            this.source = source;
             this.damage = damage;
         }
     }
