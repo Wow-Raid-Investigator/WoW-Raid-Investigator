@@ -52,8 +52,10 @@ namespace Wow_Raid.LogClasses
             this.encounter = (int)row["encounter"];
             this.logno = (int)row["logno"];
             this.spellID = (int)row["spell_id"];
-            this.critical = (bool)row["critical"];
-            this.multistrike = (bool)row["multistrike"];
+            bool? crit = (bool?)row["critical"]; ;
+            bool? multi = (bool?)row["multistrike"];
+            this.critical = crit == null ? false : (bool)crit;
+            this.multistrike = multi == null ? false: (bool)multi;
 
             this.timestamp = (long)row["timestamp"];
 
