@@ -45,12 +45,12 @@
                     <DataGrid x:Name="playerTable" HorizontalAlignment="Left" Height="147" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
                               CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Spell Name" Binding="{Binding spell}" />
-                            <DataGridTextColumn Header="Spell Healing/Damage" Binding="{Binding effect}" />
+                            <DataGridTextColumn Header="Spell Name" Binding="{Binding Source}" />
+                            <DataGridTextColumn Header="Spell Healing/Damage" Binding="{Binding Effect}" />
                             <DataGridTextColumn Header="HPS/DPS" Binding="{Binding effectPerSecond}" />
-                            <DataGridTextColumn Header="Hit Count" Binding="{Binding hitCount}" />
-                            <DataGridTextColumn Header="Crit%" Binding="{Binding critPercet}" />
-                            <DataGridTextColumn Header="Multistrike%" Binding="{Binding multistrikePercent}" Width="*" />
+                            <DataGridTextColumn Header="Hit Count" Binding="{Binding HitCount}" />
+                            <DataGridTextColumn Header="Crit%" Binding="{Binding CritPercent}" />
+                            <DataGridTextColumn Header="Multistrike%" Binding="{Binding MultistrikePercent}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
 
