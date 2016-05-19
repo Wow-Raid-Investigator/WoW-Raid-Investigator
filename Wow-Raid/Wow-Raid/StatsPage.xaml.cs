@@ -27,8 +27,13 @@ namespace Wow_Raid
         public ObservableCollection<RaidDamageRow> raids = new ObservableCollection<RaidDamageRow>();
         public ObservableCollection<PlayerRow> players = new ObservableCollection<PlayerRow>();
 
+        private int currentRaid;
+        private int currentEncounter;
+
         public StatsPage(RaidHeader row)
         {
+            this.currentRaid = row.Raid;
+            this.currentEncounter = row.Encounter;
             DamageEvent[] damageEvents = Perst.Instance.getDamageForRaidEncounter(row.Raid, row.Encounter);
             HealingEvent[] healingEvents = Perst.Instance.getHealingForRaidEncounter(row.Raid, row.Encounter);
 
@@ -42,21 +47,10 @@ namespace Wow_Raid
                 raids.Add(new RaidDamageRow(damage, row.EncounterTime));
                 totalDamge += damage.Damage;
             }
-            // Temporary solution because I got tired of figuring out a way to bind them.
-
-
-
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
 
             InitializeComponent();
             statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", 2000, totalDamge / row.EncounterTime, damageRaidArray.Length, 50000, totalDamge, row.EncounterTime));
             raidTable.DataContext = raids;
-            playerTable.DataContext = players;
 
         }
 
@@ -65,6 +59,11 @@ namespace Wow_Raid
             tabControl.SelectedIndex = 2;
 
             // TODO: Update Player Data
+            String unit = "\"Deathkite-Kel'Thuzad\"";
+
+            IEnumerable<UnitSpellSum> spells = Perst.Instance.getUnitTotalSpellDamge(currentRaid, currentEncounter, unit);
+
+            playerTable.DataContext = spells;
         }
     }
 

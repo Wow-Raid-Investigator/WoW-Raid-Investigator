@@ -286,5 +286,12 @@ namespace Wow_Raid
 
             return array.ToArray();
         }
+
+        public IEnumerable<UnitSpellSum> getUnitTotalSpellDamge(int raid, int encounter, String source)
+        {
+            DamageEvent[] events = getDamageForRaidEncounter(raid, encounter);
+            List<DamageEvent> forSource = WowEvent.filterBySource<DamageEvent>(source, events);
+            return DamageEvent.groupBySpell(forSource.ToArray()); ;
+        }
     }
 }
