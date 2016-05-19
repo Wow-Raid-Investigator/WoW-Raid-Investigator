@@ -31,8 +31,8 @@
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Player" Binding="{Binding Source}" />
-                            <DataGridTextColumn Header="Total Damage" Binding="{Binding TotalEffect}" />
-                            <DataGridTextColumn Header="Damage Per Second" Binding="{Binding DamagePerSecond}" Width="*" />
+                            <DataGridTextColumn x:Name="TotalEffectHeader" Header="Total Damage" Binding="{Binding TotalEffect}" />
+                            <DataGridTextColumn x:Name="EffectPerSecondHeader" Header="Damage Per Second" Binding="{Binding DamagePerSecond}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Margin="0,255,0,0">

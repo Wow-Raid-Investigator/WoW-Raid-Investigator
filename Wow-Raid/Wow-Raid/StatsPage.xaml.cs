@@ -89,12 +89,16 @@ namespace Wow_Raid
         private void damageButton_Checked(object sender, RoutedEventArgs e)
         {
             raidTable.DataContext = raidDamage;
+            EffectPerSecondHeader.Header = "Damage Per Second";
+            TotalEffectHeader.Header = "Total Damage";
 
         }
 
         private void healingButton_Checked(object sender, RoutedEventArgs e)
         {
             raidTable.DataContext = raidHealing;
+            EffectPerSecondHeader.Header = "Healing Per Second";
+            TotalEffectHeader.Header = "Total Healing";
         }
     }
 
