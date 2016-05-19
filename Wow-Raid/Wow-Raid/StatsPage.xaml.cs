@@ -66,8 +66,17 @@ namespace Wow_Raid
             String unit = "\"Deathkite-Kel'Thuzad\"";
 
             IEnumerable<UnitSpellSum> spells = Perst.Instance.getUnitTotalSpellDamge(currentRaid, currentEncounter, unit);
-
-            playerTable.DataContext = spells;
+            foreach(UnitSpellSum spell in spells)
+            {
+                players.Add(spell);
+            }
+            spells = HealingEvent.groupBySpell(WowEvent.filterBySource<HealingEvent>(unit, Perst.Instance.getHealingForRaidEncounter(currentRaid, currentEncounter)).ToArray());
+            foreach (UnitSpellSum spell in spells)
+            {
+                players.Add(spell);
+            }
+                
+            playerTable.DataContext = players;
         }
 
         private void viewSelectedPlayer_Click(object sender, RoutedEventArgs e)
