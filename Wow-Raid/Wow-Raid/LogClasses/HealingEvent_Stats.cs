@@ -16,12 +16,12 @@ namespace Wow_Raid.LogClasses
 
         public static IEnumerable<UnitSpellSum> groupBySource(HealingEvent[] events)
         {
-            return events.GroupBy(x => x.Source).Select(p => new UnitSpellSum(p.Key, p.Sum(d => d.healing)));
+            return events.GroupBy(x => x.Source).Select(p => new UnitSpellSum(p.Key, p.Sum(d => d.healing), p.Count(), p.Average(d => Convert.ToInt32(d.critical)), p.Average(d => Convert.ToInt32(d.multistrike))));
         }
 
         public static IEnumerable<UnitSpellSum> groupBySpell(HealingEvent[] events)
         {
-            return events.GroupBy(x => x.SpellName).Select(p => new UnitSpellSum(p.Key, p.Sum(d => d.healing)));
+            return events.GroupBy(x => x.SpellName).Select(p => new UnitSpellSum(p.Key, p.Sum(d => d.healing), p.Count(), p.Average(d => Convert.ToInt32(d.critical)), p.Average(d => Convert.ToInt32(d.multistrike))));
         }
     }
 }
