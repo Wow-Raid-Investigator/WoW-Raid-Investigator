@@ -22,11 +22,11 @@ public class HealingHandler extends Handler {
 		super(session);
 		containers = new ArrayList<HealingHandlerContainer>();
 		healing_dealt = this.session.prepare(
-				"insert into healing_dealt (raid, encounter, logno, timestamp, source, target, healing, spell_id) "
-						+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
+				"insert into healing_dealt (raid, encounter, logno, timestamp, source, target, healing, spell_id, critical, multistrike) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		healing_taken = this.session.prepare(
-				"insert into healing_taken (raid, encounter, logno, timestamp, source, target, healing, spell_id) "
-						+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
+				"insert into healing_taken (raid, encounter, logno, timestamp, source, target, healing, spell_id, critical, multistrike) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	}
 
 	@Override
@@ -38,6 +38,8 @@ public class HealingHandler extends Handler {
 		container.target = event.data.get("TargetGUID");
 		container.healing = Integer.valueOf(event.data.get("HealAmount"));
 		container.spell_id = Integer.valueOf(event.data.get("CastSpellId"));
+		container.critical = event.data.get("Critical").equals("1");
+		container.multistrike = event.data.get("Multistrike").equals("1");
 
 		containers.add(container);
 
@@ -50,6 +52,8 @@ public class HealingHandler extends Handler {
 		public String target;
 		public int healing;
 		public int spell_id;
+		public boolean critical;
+		public boolean multistrike;
 
 		@Override
 		public BoundStatement getStatement(BoundStatement input) {
@@ -58,6 +62,8 @@ public class HealingHandler extends Handler {
 			input.setString("target", target);
 			input.setInt("healing", healing);
 			input.setInt("spell_id", spell_id);
+			input.setBool("critical", critical);
+			input.setBool("multistrike", multistrike);
 
 			return input;
 		}

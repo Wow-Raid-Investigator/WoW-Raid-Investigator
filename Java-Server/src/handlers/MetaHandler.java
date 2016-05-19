@@ -16,8 +16,8 @@ public class MetaHandler extends Handler {
 	public MetaHandler(Session session) {
 		super(session);
 		containers = new ArrayList<MetaHandlerContainer>();
-		metadata = this.session.prepare("insert into metadata (raid, encounter, timestamp, logno, description) "
-				+ "values (?, ?, ?, ?, ?)");
+		metadata = this.session.prepare("insert into metadata (raid, encounter, timestamp, logno, description, duration) "
+				+ "values (?, ?, ?, ?, ?, ?)");
 	}
 
 	@Override
@@ -29,16 +29,21 @@ public class MetaHandler extends Handler {
 			container.description = event.data.get("EncounterName");
 			
 			containers.add(container);
+		} else {
+			MetaHandlerContainer last = containers.get(containers.size()-1);
+			last.duration = event.time - last.timestamp;
 		}
 	}
 
 	public static class MetaHandlerContainer {
 		public long timestamp;
 		public String description;
+		public long duration;
 		
 		public BoundStatement getStatement(BoundStatement input) {
 			input.setLong("timestamp", timestamp);
 			input.setString("description", description);
+			input.setLong("duration", duration);
 			return input;
 		}
 	}
