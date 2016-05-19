@@ -36,8 +36,8 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Margin="0,255,0,0">
-                        <RadioButton x:Name="damageButton" Content="Healing" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="283,0,150,0" Checked="damageButton_Checked"/>
-                        <RadioButton x:Name="healingButton" Content="Damage" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="150,0,283,0" IsChecked="True" Checked="healingButton_Checked"/>
+                        <RadioButton x:Name="healingButton" Content="Healing" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="283,0,150,0" Checked="button_Checked"/>
+                        <RadioButton x:Name="damageButton" Content="Damage" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="150,0,283,0" IsChecked="True" Checked="button_Checked"/>
                     </Grid>
                 </Grid>
                 

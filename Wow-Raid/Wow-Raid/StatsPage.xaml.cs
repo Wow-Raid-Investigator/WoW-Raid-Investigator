@@ -61,7 +61,7 @@ namespace Wow_Raid
 
             InitializeComponent();
             statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", totalHealing/row.EncounterTime, totalDamge / row.EncounterTime, damageRaidArray.Length, totalHealing, totalDamge, row.EncounterTime));
-            raidTable.DataContext = raidDamage;
+            button_Checked(null, null);
 
             String unit = "\"Deathkite-Kel'Thuzad\"";
 
@@ -86,19 +86,22 @@ namespace Wow_Raid
             // TODO: Update Player Data
         }
 
-        private void damageButton_Checked(object sender, RoutedEventArgs e)
+        private void button_Checked(object sender, RoutedEventArgs e)
         {
-            raidTable.DataContext = raidDamage;
-            EffectPerSecondHeader.Header = "Damage Per Second";
-            TotalEffectHeader.Header = "Total Damage";
-
-        }
-
-        private void healingButton_Checked(object sender, RoutedEventArgs e)
-        {
-            raidTable.DataContext = raidHealing;
-            EffectPerSecondHeader.Header = "Healing Per Second";
-            TotalEffectHeader.Header = "Total Healing";
+            if((bool)damageButton.IsChecked)
+            {
+                Console.WriteLine("CHANGING TO DAMAGE.");
+                raidTable.DataContext = raidDamage;
+                EffectPerSecondHeader.Header = "Damage Per Second";
+                TotalEffectHeader.Header = "Total Damage";
+            }
+            else
+            {
+                Console.WriteLine("CHANGING TO HEALING");
+                raidTable.DataContext = raidHealing;
+                EffectPerSecondHeader.Header = "Healing Per Second";
+                TotalEffectHeader.Header = "Total Healing";
+            }
         }
     }
 
