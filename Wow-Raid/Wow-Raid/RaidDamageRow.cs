@@ -2,24 +2,24 @@
 
 namespace Wow_Raid
 {
-    public class RaidDamageRow
+    public class RaidEffectRow
     {
-        private UnitTotalDamage damage;
+        private UnitTotalEffect effect;
         private long encounterTime;
 
         public string Source
         {
             get
             {
-                return damage.Source;
+                return effect.Source;
             }
         }
 
-        public long TotalDamage
+        public long TotalEffect
         {
             get
             {
-                return damage.Damage;
+                return effect.Damage;
             }
         }
 
@@ -27,13 +27,19 @@ namespace Wow_Raid
         {
             get
             {
-                return TotalDamage / encounterTime;
+                return TotalEffect / encounterTime;
             }
         }
 
-        public RaidDamageRow(UnitTotalDamage damage, long v)
+        public RaidEffectRow(UnitTotalDamage damage, long v)
         {
             this.damage = damage;
+            this.encounterTime = v;
+        }
+
+        public RaidEffectRow(UnitTotalHealing healing, long v)
+        {
+            this.effect = healing;
             this.encounterTime = v;
         }
     }

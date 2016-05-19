@@ -24,7 +24,7 @@ namespace Wow_Raid
     /// </summary>
     public partial class StatsPage : Page
     {
-        public ObservableCollection<RaidDamageRow> raids = new ObservableCollection<RaidDamageRow>();
+        public ObservableCollection<RaidEffectRow> raids = new ObservableCollection<RaidEffectRow>();
         public ObservableCollection<UnitSpellSum> players = new ObservableCollection<UnitSpellSum>();
 
         private int currentRaid;
@@ -44,7 +44,14 @@ namespace Wow_Raid
             long totalDamge = 0;
             foreach(UnitTotalDamage damage in damageRaidArray)
             {
-                raids.Add(new RaidDamageRow(damage, row.EncounterTime));
+                raids.Add(new RaidEffectRow(damage, row.EncounterTime));
+                totalDamge += damage.Damage;
+            }
+
+            long totalHealing = 0;
+            foreach (UnitTotalHealing healing in healingRaidArray)
+            {
+                raids.Add(new RaidEffectRow(healing, row.EncounterTime));
                 totalDamge += damage.Damage;
             }
 
