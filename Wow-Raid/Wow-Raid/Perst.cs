@@ -79,7 +79,7 @@ namespace Wow_Raid
             return array.ToArray();
         }
 
-        private void getTotalHealingBySource(int raid, int encounter, String Source, bool forceRefresh = false)
+        private UnitTotalHealing getTotalHealingBySource(int raid, int encounter, String Source, bool forceRefresh = false)
         {
             UnitTotalHealing healing;
             if (forceRefresh)
@@ -99,7 +99,7 @@ namespace Wow_Raid
                     return healing;
             }
 
-            healing = (UnitTotalDamage)healingIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
+            healing = (UnitTotalHealing)healingIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
 
             if (healing == null)
             {
@@ -107,7 +107,7 @@ namespace Wow_Raid
             }
             else
             {
-                return (UnitTotalDamage)healing;
+                return (UnitTotalHealing)healing;
             }
         }
 
