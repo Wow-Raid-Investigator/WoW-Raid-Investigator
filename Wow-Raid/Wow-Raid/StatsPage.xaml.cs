@@ -51,12 +51,12 @@ namespace Wow_Raid
             long totalHealing = 0;
             foreach (UnitTotalHealing healing in healingRaidArray)
             {
-                raids.Add(new RaidEffectRow(healing, row.EncounterTime));
-                totalDamge += damage.Damage;
+                //raids.Add(new RaidEffectRow(healing, row.EncounterTime));
+                totalHealing += healing.Healing;
             }
 
             InitializeComponent();
-            statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", 2000, totalDamge / row.EncounterTime, damageRaidArray.Length, 50000, totalDamge, row.EncounterTime));
+            statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", totalHealing/row.EncounterTime, totalDamge / row.EncounterTime, damageRaidArray.Length, totalHealing, totalDamge, row.EncounterTime));
             raidTable.DataContext = raids;
 
             String unit = "\"Deathkite-Kel'Thuzad\"";

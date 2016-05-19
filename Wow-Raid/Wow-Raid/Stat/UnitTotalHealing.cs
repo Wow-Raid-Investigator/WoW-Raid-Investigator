@@ -19,5 +19,10 @@ namespace Wow_Raid.Stat
         {
             this.healing = healing;
         }
+
+        public override long getTotalEffect()
+        {
+            return Healing;
+        }
     }
 }

@@ -19,5 +19,10 @@ namespace Wow_Raid.LogClasses
         {
             this.effect = effect;
         }
+
+        public override long getTotalEffect()
+        {
+            return Effect;
+        }
     }
 }

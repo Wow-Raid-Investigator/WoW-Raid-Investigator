@@ -19,5 +19,10 @@ namespace Wow_Raid.Stat
         {
             this.damage = damage;
         }
+
+        public override long getTotalEffect()
+        {
+            return Damage;
+        }
     }
 }

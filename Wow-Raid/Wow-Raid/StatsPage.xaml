@@ -35,7 +35,8 @@
                             <DataGridTextColumn Header="Damage Per Second" Binding="{Binding DamagePerSecond}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button x:Name="Toggle" Content="Healing" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Margin="0,0,0,-4" />
+                    <RadioButton x:Name="radioButton" Content="RadioButton" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="97,0,336,0"/>
+
                 </Grid>
                 
             </TabItem>
