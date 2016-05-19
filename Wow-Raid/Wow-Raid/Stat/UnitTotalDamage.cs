@@ -8,11 +8,7 @@ namespace Wow_Raid.Stat
 {
     public class UnitTotalDamage : UnitTotalEffect
     {
-        String source;
         long damage;
-        private int hitCount;
-        private double critPercet;
-        private double multistrikePercent;
 
         public long Damage
         {
