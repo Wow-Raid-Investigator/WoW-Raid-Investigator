@@ -22,11 +22,11 @@ public class HealingHandler extends Handler {
 		super(session);
 		containers = new ArrayList<HealingHandlerContainer>();
 		healing_dealt = this.session.prepare(
-				"insert into healing_dealt (raid, encounter, logno, timestamp, source, target, healing, spell_id) "
-						+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
+				"insert into healing_dealt (raid, encounter, logno, timestamp, source, target, healing, spell_id, critical, multistrike) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		healing_taken = this.session.prepare(
-				"insert into healing_taken (raid, encounter, logno, timestamp, source, target, healing, spell_id) "
-						+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
+				"insert into healing_taken (raid, encounter, logno, timestamp, source, target, healing, spell_id, critical, multistrike) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	}
 
 	@Override
