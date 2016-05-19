@@ -12,9 +12,33 @@ namespace Wow_Raid.Stat
             }
         }
 
-        public double critPercet;
-        public int hitCount;
-        public double multistrikePercent;
+        public double CritPercent
+        {
+            get
+            {
+                return critPercet;
+            }
+        }
+
+        public double MultistrikePercent
+        {
+            get
+            {
+                return multistrikePercent;
+            }
+        }
+
+        public double HitCount
+        {
+            get
+            {
+                return hitCount;
+            }
+        }
+
+        private double critPercet;
+        private int hitCount;
+        private double multistrikePercent;
         private String source;
 
         public UnitTotalEffect(String source, int hits, double crit, double multistrike)
