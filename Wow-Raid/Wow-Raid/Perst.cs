@@ -81,33 +81,33 @@ namespace Wow_Raid
 
         private void getTotalHealingBySource(int raid, int encounter, String Source, bool forceRefresh = false)
         {
-            UnitTotalHealing damage;
+            UnitTotalHealing healing;
             if (forceRefresh)
             {
                 HealingEvent[] events = getHealingForRaidEncounter(raid, encounter);
 
                 foreach (UnitTotalHealing unit in HealingEvent.groupBySource(events))
                 {
-                    damageIndex.Set(String.Format(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, unit.Source)), unit);
+                    healingIndex.Set(String.Format(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, unit.Source)), unit);
                 }
 
-                damage = (UnitTotalDamage)damageIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
+                healing = (UnitTotalHealing)healingIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
 
-                if (damage == null)
+                if (healing == null)
                     throw new ArgumentOutOfRangeException(Source + " does not exist in the encounter");
                 else
-                    return damage;
+                    return healing;
             }
 
-            damage = (UnitTotalDamage)damageIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
+            healing = (UnitTotalDamage)healingIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
 
-            if (damage == null)
+            if (healing == null)
             {
-                return getTotalDamageBySource(raid, encounter, Source, true);
+                return getTotalHealingBySource(raid, encounter, Source, true);
             }
             else
             {
-                return (UnitTotalDamage)damage;
+                return (UnitTotalDamage)healing;
             }
         }
 
