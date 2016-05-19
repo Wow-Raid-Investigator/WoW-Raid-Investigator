@@ -52,7 +52,7 @@ namespace Wow_Raid
             foreach (UnitTotalHealing healing in healingRaidArray)
             {
                 raids.Add(new RaidEffectRow(healing, row.EncounterTime));
-                totalDamge += damage.Damage;
+                totalHealing += healing.Healing;
             }
 
             InitializeComponent();
