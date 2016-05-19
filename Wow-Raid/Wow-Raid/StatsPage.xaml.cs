@@ -33,6 +33,7 @@ namespace Wow_Raid
             HealingEvent[] healingEvents = Perst.Instance.getHealingForRaidEncounter(row.Raid, row.Encounter);
 
             UnitTotalDamage[] damageRaidArray = Perst.Instance.getInvolvedUnitsDamage(row.Raid, row.Encounter);
+            UnitTotalHealing[] healingRaidArray = Perst.Instance.getInvolvedUnitsHealing(row.Raid, row.Encounter);
             
 
             long totalDamge = 0;

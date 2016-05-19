@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="Stat\UnitTotalDamage.cs" />
     <Compile Include="Stat\UnitTotalEffect.cs" />
+    <Compile Include="Stat\UnitTotalHealing.cs" />
     <Compile Include="UploadPopup.xaml.cs">
       <DependentUpon>UploadPopup.xaml</DependentUpon>
     </Compile>

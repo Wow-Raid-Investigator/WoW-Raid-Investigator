@@ -14,9 +14,14 @@ namespace Wow_Raid.LogClasses
             return events.Sum(x => x.healing);
         }
 
-        public static IEnumerable<UnitTotalHealing> groupBySource(HealingEvent[] events)
+        public static IEnumerable<UnitSpellSum> groupBySource(HealingEvent[] events)
         {
-            return events.GroupBy(x => x.Source).Select(p => new UnitTotalHealing(p.Key, p.Sum(d => d.healing)));
+            return events.GroupBy(x => x.Source).Select(p => new UnitSpellSum(p.Key, p.Sum(d => d.healing)));
+        }
+
+        public static IEnumerable<UnitSpellSum> groupBySpell(HealingEvent[] events)
+        {
+            return events.GroupBy(x => x.SpellName).Select(p => new UnitSpellSum(p.Key, p.Sum(d => d.healing)));
         }
     }
 }

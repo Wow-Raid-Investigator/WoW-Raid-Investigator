@@ -17,7 +17,7 @@ namespace Wow_Raid.LogClasses
             this.healing = (int)row["healing"];
         }
 
-        public static new List<HealingEvent> convert(RowSet set)
+        public static List<HealingEvent> convert(RowSet set)
         {
             List<HealingEvent> events = new List<HealingEvent>();
 
