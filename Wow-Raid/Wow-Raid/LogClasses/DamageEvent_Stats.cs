@@ -16,7 +16,12 @@ namespace Wow_Raid.LogClasses
 
         public static IEnumerable<UnitTotalDamage> groupBySource(DamageEvent[] events)
         {
-            return events.GroupBy(x => x.source).Select(p => new UnitTotalDamage(p.Key, p.Sum(d => d.damage)) );
+            return events.GroupBy(x => x.Source).Select(p => new UnitTotalDamage(p.Key, p.Sum(d => d.damage), p.Count() ,p.Average(d => Convert.ToInt32(d.critical)), p.Average(d => Convert.ToInt32(d.multistrike))) );
+        }
+
+        public static IEnumerable<UnitSpellSum> groupBySpell(DamageEvent[] events)
+        {
+            return events.GroupBy(x => x.SpellName).Select(p => new UnitSpellSum(p.Key, p.Sum(d => d.damage),p.Count(), p.Average(d => Convert.ToInt32(d.critical)), p.Average(d => Convert.ToInt32(d.multistrike))));
         }
     }
 }

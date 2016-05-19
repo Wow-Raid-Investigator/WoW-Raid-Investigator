@@ -24,37 +24,46 @@ namespace Wow_Raid
     /// </summary>
     public partial class StatsPage : Page
     {
-        public ObservableCollection<RaidDamageRow> raids = new ObservableCollection<RaidDamageRow>();
-        public ObservableCollection<PlayerRow> players = new ObservableCollection<PlayerRow>();
+        public ObservableCollection<RaidEffectRow> raids = new ObservableCollection<RaidEffectRow>();
+        public ObservableCollection<UnitSpellSum> players = new ObservableCollection<UnitSpellSum>();
+
+        private int currentRaid;
+        private int currentEncounter;
 
         public StatsPage(RaidHeader row)
         {
-            DamageEvent[] events = Perst.Instance.getDamageForRaidEncounter(row.Raid, row.Encounter);
+            this.currentRaid = row.Raid;
+            this.currentEncounter = row.Encounter;
+            DamageEvent[] damageEvents = Perst.Instance.getDamageForRaidEncounter(row.Raid, row.Encounter);
+            HealingEvent[] healingEvents = Perst.Instance.getHealingForRaidEncounter(row.Raid, row.Encounter);
 
             UnitTotalDamage[] damageRaidArray = Perst.Instance.getInvolvedUnitsDamage(row.Raid, row.Encounter);
+            UnitTotalHealing[] healingRaidArray = Perst.Instance.getInvolvedUnitsHealing(row.Raid, row.Encounter);
+            
 
             long totalDamge = 0;
             foreach(UnitTotalDamage damage in damageRaidArray)
             {
-                raids.Add(new RaidDamageRow(damage, row.EncounterTime));
+                raids.Add(new RaidEffectRow(damage, row.EncounterTime));
                 totalDamge += damage.Damage;
             }
-            // Temporary solution because I got tired of figuring out a way to bind them.
 
-
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-            players.Add(new PlayerRow() { spell = "Wrath", effect = "5K", effectPerSecond = "1Kdps", hitCount = 100, crit = 1.2F, multistrike = 11.3F });
-
+            long totalHealing = 0;
+            foreach (UnitTotalHealing healing in healingRaidArray)
+            {
+                raids.Add(new RaidEffectRow(healing, row.EncounterTime));
+                totalDamge += damage.Damage;
+            }
 
             InitializeComponent();
             statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", 2000, totalDamge / row.EncounterTime, damageRaidArray.Length, 50000, totalDamge, row.EncounterTime));
             raidTable.DataContext = raids;
-            playerTable.DataContext = players;
 
+            String unit = "\"Deathkite-Kel'Thuzad\"";
+
+            IEnumerable<UnitSpellSum> spells = Perst.Instance.getUnitTotalSpellDamge(currentRaid, currentEncounter, unit);
+
+            playerTable.DataContext = spells;
         }
 
         private void viewSelectedPlayer_Click(object sender, RoutedEventArgs e)

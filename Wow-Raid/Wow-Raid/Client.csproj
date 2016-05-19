@@ -63,6 +63,10 @@
       <HintPath>..\packages\DynamicDataDisplayWpf.0.4.0\lib\Parser.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.1.603\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -105,9 +109,13 @@
     <Compile Include="HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LogClasses\HealingEvent.cs" />
     <Compile Include="LogClasses\DamageEvent.cs" />
     <Compile Include="LogClasses\DamageEvent_Stats.cs" />
+    <Compile Include="LogClasses\HealingEvent_Stats.cs" />
     <Compile Include="LogClasses\RaidHeader.cs" />
+    <Compile Include="Stat\UnitSpellSum.cs" />
+    <Compile Include="LogClasses\WowEvent.cs" />
     <Compile Include="LogViewer.xaml.cs">
       <DependentUpon>LogViewer.xaml</DependentUpon>
     </Compile>
@@ -116,6 +124,8 @@
       <DependentUpon>StatsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Stat\UnitTotalDamage.cs" />
+    <Compile Include="Stat\UnitTotalEffect.cs" />
+    <Compile Include="Stat\UnitTotalHealing.cs" />
     <Compile Include="UploadPopup.xaml.cs">
       <DependentUpon>UploadPopup.xaml</DependentUpon>
     </Compile>

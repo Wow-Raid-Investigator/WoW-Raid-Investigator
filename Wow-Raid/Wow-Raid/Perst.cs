@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wow_Raid.LogClasses;
 using Wow_Raid.Stat;
+using StackExchange.Redis;
 
 namespace Wow_Raid
 {
@@ -14,6 +15,7 @@ namespace Wow_Raid
     {
         private static Perst instance;
         private static readonly object padlock = new object();
+        private static IDatabase redis = ConnectionMultiplexer.Connect("wow-raid-1.csse.rose-hulman.edu:6379").GetDatabase();
 
         public static Perst Instance
         {
@@ -34,9 +36,85 @@ namespace Wow_Raid
             }
         }
 
+        public string GetRedisTestValue(string key)
+        {
+            return redis.HashGet("spells", key);
+        }
+
+        internal HealingEvent[] getHealingForRaidEncounter(int raid, int encounter, bool forceRefresh = false)
+        {
+            if (forceRefresh)
+            {
+                List<HealingEvent> list = HealingEvent.convert(Cassandra.Instance.GetHealingForRaidEncounter(raid, encounter));
+                foreach (HealingEvent evt in list)
+                {
+                    healingIndex.Put(evt.getKey(), evt);
+                }
+                return list.ToArray();
+            }
+
+            object[] temp = healingIndex.GetPrefix(HealingEvent.getRaidEncounterPrefix(raid, encounter));
+
+            if (temp.Length == 0)
+                return getHealingForRaidEncounter(raid, encounter, true);
+
+            return convertToList<HealingEvent>(temp).ToArray();
+        }
+
+        public UnitTotalHealing[] getInvolvedUnitsHealing(int raid, int encounter, bool foreceRefresh = false)
+        {
+            List<UnitTotalHealing> array = convertToList<UnitTotalHealing>(healingIndex.GetPrefix(String.Format("TOTAL:{0}:{1}:", raid, encounter)));
+
+            if (array.Count == 0)
+            {
+                try
+                {
+                    getTotalHealingBySource(raid, encounter, "", true);
+                }
+                catch (ArgumentOutOfRangeException) { }
+
+                array = convertToList<UnitTotalHealing>(healingIndex.GetPrefix(String.Format("TOTAL:{0}:{1}:", raid, encounter)));
+            }
+
+            return array.ToArray();
+        }
+
+        private UnitTotalHealing getTotalHealingBySource(int raid, int encounter, String Source, bool forceRefresh = false)
+        {
+            UnitTotalHealing healing;
+            if (forceRefresh)
+            {
+                HealingEvent[] events = getHealingForRaidEncounter(raid, encounter);
+
+                foreach (UnitTotalHealing unit in HealingEvent.groupBySource(events))
+                {
+                    healingIndex.Set(String.Format(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, unit.Source)), unit);
+                }
+
+                healing = (UnitTotalHealing)healingIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
+
+                if (healing == null)
+                    throw new ArgumentOutOfRangeException(Source + " does not exist in the encounter");
+                else
+                    return healing;
+            }
+
+            healing = (UnitTotalHealing)healingIndex.Get(String.Format("TOTAL:{0}:{1}:{2}:", raid, encounter, Source));
+
+            if (healing == null)
+            {
+                return getTotalHealingBySource(raid, encounter, Source, true);
+            }
+            else
+            {
+                return (UnitTotalHealing)healing;
+            }
+        }
+
         private Index root;
         private Storage db;
         private Index damageIndex;
+        private Index healingIndex;
 
         private Perst ()
         {
@@ -54,10 +132,14 @@ namespace Wow_Raid
 
                 damageIndex = db.CreateIndex(typeof(string), false);
                 root.Put("DamageIndex", damageIndex);
+
+                healingIndex = db.CreateIndex(typeof(string), false);
+                root.Put("HealingIndex", healingIndex);
             }
             else
             {
                 damageIndex = (Index)root.Get("DamageIndex");
+                healingIndex = (Index)root.Get("HealingIndex");
             }
             
             
@@ -169,6 +251,25 @@ namespace Wow_Raid
             }
         }
 
+        public string getSpellNameFromSpellID(int ID)
+        {
+            string id = ID.ToString();
+            string val = redis.HashGet("spells", id);
+
+            if (val == null)
+                return id;
+
+            return val;
+        }
+
+        public string getUnitNameFromGUID(string GUID)
+        {
+            string val = redis.HashGet("units", GUID);
+            if (val == null)
+                return GUID;
+            return val;
+        }
+
         public UnitTotalDamage[] getInvolvedUnitsDamage(int raid, int encounter, bool foreceRefresh = false)
         {
             List<UnitTotalDamage> array = convertToList<UnitTotalDamage>(damageIndex.GetPrefix(String.Format("TOTAL:{0}:{1}:", raid, encounter)));
@@ -186,5 +287,11 @@ namespace Wow_Raid
             return array.ToArray();
         }
 
+        public IEnumerable<UnitSpellSum> getUnitTotalSpellDamge(int raid, int encounter, String source)
+        {
+            DamageEvent[] events = getDamageForRaidEncounter(raid, encounter);
+            List<DamageEvent> forSource = WowEvent.filterBySource<DamageEvent>(source, events);
+            return DamageEvent.groupBySpell(forSource.ToArray()); ;
+        }
     }
 }
