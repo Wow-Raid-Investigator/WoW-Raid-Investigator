@@ -25,7 +25,7 @@ namespace Wow_Raid
     public partial class StatsPage : Page
     {
         public ObservableCollection<RaidDamageRow> raids = new ObservableCollection<RaidDamageRow>();
-        public ObservableCollection<PlayerRow> players = new ObservableCollection<PlayerRow>();
+        public ObservableCollection<UnitSpellSum> players = new ObservableCollection<UnitSpellSum>();
 
         private int currentRaid;
         private int currentEncounter;
@@ -52,6 +52,11 @@ namespace Wow_Raid
             statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", 2000, totalDamge / row.EncounterTime, damageRaidArray.Length, 50000, totalDamge, row.EncounterTime));
             raidTable.DataContext = raids;
 
+            String unit = "\"Deathkite-Kel'Thuzad\"";
+
+            IEnumerable<UnitSpellSum> spells = Perst.Instance.getUnitTotalSpellDamge(currentRaid, currentEncounter, unit);
+
+            playerTable.DataContext = spells;
         }
 
         private void viewSelectedPlayer_Click(object sender, RoutedEventArgs e)
@@ -59,11 +64,6 @@ namespace Wow_Raid
             tabControl.SelectedIndex = 2;
 
             // TODO: Update Player Data
-            String unit = "\"Deathkite-Kel'Thuzad\"";
-
-            IEnumerable<UnitSpellSum> spells = Perst.Instance.getUnitTotalSpellDamge(currentRaid, currentEncounter, unit);
-
-            playerTable.DataContext = spells;
         }
     }
 

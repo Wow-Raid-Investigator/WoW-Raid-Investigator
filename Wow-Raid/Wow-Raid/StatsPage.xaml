@@ -49,8 +49,8 @@
                             <DataGridTextColumn Header="Spell Healing/Damage" Binding="{Binding effect}" />
                             <DataGridTextColumn Header="HPS/DPS" Binding="{Binding effectPerSecond}" />
                             <DataGridTextColumn Header="Hit Count" Binding="{Binding hitCount}" />
-                            <DataGridTextColumn Header="Crit%" Binding="{Binding crit}" />
-                            <DataGridTextColumn Header="Multistrike%" Binding="{Binding multistrike}" Width="*" />
+                            <DataGridTextColumn Header="Crit%" Binding="{Binding critPercet}" />
+                            <DataGridTextColumn Header="Multistrike%" Binding="{Binding multistrikePercent}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
 
