@@ -293,5 +293,12 @@ namespace Wow_Raid
             List<DamageEvent> forSource = WowEvent.filterBySource<DamageEvent>(source, events);
             return DamageEvent.groupBySpell(forSource.ToArray()); ;
         }
+
+        public IEnumerable<UnitSpellSum> getUnitTotalSpellHealing(int raid, int encounter, String source)
+        {
+            HealingEvent[] events = getHealingForRaidEncounter(raid, encounter);
+            List<HealingEvent> forSource = WowEvent.filterBySource<HealingEvent>(source, events);
+            return HealingEvent.groupBySpell(forSource.ToArray());
+        }
     }
 }

@@ -70,7 +70,7 @@ namespace Wow_Raid
             {
                 players.Add(spell);
             }
-            spells = HealingEvent.groupBySpell(WowEvent.filterBySource<HealingEvent>(unit, Perst.Instance.getHealingForRaidEncounter(currentRaid, currentEncounter)).ToArray());
+            spells = Perst.Instance.getUnitTotalSpellHealing(currentRaid, currentEncounter, unit);
             foreach (UnitSpellSum spell in spells)
             {
                 players.Add(spell);
