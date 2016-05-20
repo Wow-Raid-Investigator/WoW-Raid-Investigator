@@ -24,7 +24,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
-        <Button x:Name="viewButton" Content="View" HorizontalAlignment="Center" Height="23" Margin="0,310,0,0" VerticalAlignment="Top" Width="90" Click="viewButton_Click"/>
+        <Button x:Name="viewButton" Content="View" HorizontalAlignment="Center" Height="23" Margin="218,301,217,0" VerticalAlignment="Top" Width="90" Click="viewButton_Click"/>
 
     </Grid>
 </Page>
