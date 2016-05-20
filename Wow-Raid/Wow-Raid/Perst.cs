@@ -2,9 +2,6 @@
 using Perst;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Wow_Raid.LogClasses;
 using Wow_Raid.Stat;
 using StackExchange.Redis;
@@ -16,6 +13,8 @@ namespace Wow_Raid
         private static Perst instance;
         private static readonly object padlock = new object();
         private static IDatabase redis = ConnectionMultiplexer.Connect("wow-raid-1.csse.rose-hulman.edu:6379").GetDatabase();
+        private static Dictionary<string, string> guidMap = new Dictionary<string, string>();
+        private static Dictionary<int, string> spellMap = new Dictionary<int, string>();
 
         public static Perst Instance
         {
@@ -253,21 +252,48 @@ namespace Wow_Raid
 
         public string getSpellNameFromSpellID(int ID)
         {
-            string id = ID.ToString();
-            string val = redis.HashGet("spells", id);
+            if (spellMap.ContainsKey(ID))
+                return spellMap[ID];
+            else
+            {
+                string id = ID.ToString();
+                string val = redis.HashGet("spells", id);
 
-            if (val == null)
-                return id;
+                if (val == null)
+                {
+                    spellMap[ID] = id;
+                    return id;
+                }
 
-            return val;
+                spellMap[ID] = val;
+                return val;
+            }
         }
 
         public string getUnitNameFromGUID(string GUID)
         {
-            string val = redis.HashGet("units", GUID);
-            if (val == null)
+            if(guidMap.ContainsKey(GUID))
+            {
+                return guidMap[GUID];
+            }
+
+            try
+            {
+                string val = redis.HashGet("units", GUID);
+                if (val == null)
+                {
+                    guidMap[GUID] = GUID;
+                    return GUID;
+                }
+                guidMap[GUID] = val;
+                return val;
+            }
+            catch (Exception e)
+            {
+                Console.Error.Write(e.StackTrace);
+                guidMap[GUID] = GUID;
                 return GUID;
-            return val;
+            }
         }
 
         public UnitTotalDamage[] getInvolvedUnitsDamage(int raid, int encounter, bool foreceRefresh = false)
@@ -279,7 +305,9 @@ namespace Wow_Raid
                 try
                 {
                     getTotalDamageBySource(raid, encounter, "", true);
-                } catch (ArgumentOutOfRangeException) { }
+                } catch (ArgumentOutOfRangeException e) {
+                    Console.Error.Write(e.StackTrace);
+                }
 
                 array = convertToList<UnitTotalDamage>(damageIndex.GetPrefix(String.Format("TOTAL:{0}:{1}:", raid, encounter)));
             }

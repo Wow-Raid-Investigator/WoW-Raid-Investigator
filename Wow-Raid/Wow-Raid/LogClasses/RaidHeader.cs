@@ -51,9 +51,11 @@ namespace Wow_Raid.LogClasses
 
         public RaidHeader(Row row)
         {
+            Console.WriteLine(row.ToString());
             this.raid = (int)row["raid"];
             this.encounter = (int)row["encounter"];
-            this._date = DateTime.Now;
+            this._date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            this._date = this._date.AddSeconds(((long)row["timestamp"]) / 10);
             this._description = "Not Set";
 
             this.encounterTime = 120;

@@ -1,9 +1,6 @@
 ﻿using Cassandra;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wow_Raid
 {
@@ -66,7 +63,7 @@ namespace Wow_Raid
 
         public RowSet GetRaidHeaders()
         {
-            RowSet set = session.Execute("select DISTINCT raid, encounter from damage_dealt");
+            RowSet set = session.Execute("select raid, encounter, timestamp from metadata");
             return set;
         }
     }

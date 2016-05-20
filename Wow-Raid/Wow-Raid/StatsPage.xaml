@@ -15,7 +15,6 @@
                     <Label x:Name="statsLabel" Content="Stats" FontSize="32" Margin="10,0,209,211" RenderTransformOrigin="-1.348,1.216"/>
                     <!--<TextBlock x:Name="statsDescription" TextWrapping="Wrap" Text="Please Work. Goddammit." Margin="10,57,254,10"/>-->
                     <TextBlock x:Name="statsDescription" TextWrapping="Wrap" Text="{Binding statsDescriptionText}" Margin="10,57,254,10"/>
-                    <Rectangle x:Name="image" HorizontalAlignment="Left" Fill="Coral" Height="201" Margin="266,57,0,0" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.524,0.496"/>
                 </Grid>
 
             </TabItem>
