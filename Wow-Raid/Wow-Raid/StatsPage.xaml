@@ -50,8 +50,8 @@
                               CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Spell Name" Binding="{Binding Source}" />
-                            <DataGridTextColumn Header="Spell Healing/Damage" Binding="{Binding Effect}" />
-                            <DataGridTextColumn Header="HPS/DPS" Binding="{Binding effectPerSecond}" />
+                            <DataGridTextColumn Header="Spell Healing/Damage" Binding="{Binding TotalEffect}" />
+                            <DataGridTextColumn Header="HPS/DPS" Binding="{Binding EffectPerSecond}" />
                             <DataGridTextColumn Header="Hit Count" Binding="{Binding HitCount}" />
                             <DataGridTextColumn Header="Crit%" Binding="{Binding CritPercent}" />
                             <DataGridTextColumn Header="Multistrike%" Binding="{Binding MultistrikePercent}" Width="*" />
