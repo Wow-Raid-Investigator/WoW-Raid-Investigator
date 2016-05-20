@@ -35,6 +35,7 @@ namespace Wow_Raid
 
         public StatsPage(RaidHeader row)
         {
+            barchart.DataContext = players;
             this.row = row;
             this.currentRaid = row.Raid;
             this.currentEncounter = row.Encounter;

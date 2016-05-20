@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Wow_Raid"
-      mc:Ignorable="d" 
+      xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
+    mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="525"
       Title="StatsPage">
 
@@ -20,9 +21,22 @@
             </TabItem>
             <TabItem Header="Raid" Width="75">
                 <Grid>
-                    <Rectangle x:Name="image2" HorizontalAlignment="Left" Fill="Coral" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="499" RenderTransformOrigin="0.524,0.496" Grid.ColumnSpan="2"/>
+                    <metroChart:StackedBarChart
+                        x:Name="barchart"
+                        Style="{StaticResource MinimalChartStyle}"
+                        ChartTitle=""
+                        ChartSubTitle=""
+                        SelectedItem="{Binding}" Height="Auto" Margin="10,0,10,157" Width="Auto" >
+                        <metroChart:StackedBarChart.Series>
+                            <metroChart:ChartSeries
+                        		SeriesTitle=""
+                        		DisplayMember="Source"
+                        		ValueMember="TotalEffect"
+                        		ItemsSource="{Binding Path=players}" />
+                        </metroChart:StackedBarChart.Series>
+                    </metroChart:StackedBarChart>
                     <DataGrid x:Name="raidTable" HorizontalAlignment="Left" Height="135" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
-                              CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral" Grid.ColumnSpan="2">
+                            CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral" Grid.ColumnSpan="2">
                         <DataGrid.ContextMenu>
                             <ContextMenu >
                                 <MenuItem x:Name="viewSelectedPlayer" Header="View Selected Player" Click="viewSelectedPlayer_Click"/>
@@ -39,11 +53,23 @@
                         <RadioButton x:Name="damageButton" Content="Damage" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="150,0,283,0" IsChecked="True" Checked="button_Checked"/>
                     </Grid>
                 </Grid>
-                
+
             </TabItem>
             <TabItem Header="Player" Width="75">
                 <Grid>
-                    <Rectangle x:Name="image3" HorizontalAlignment="Left" Fill="Coral" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="499" RenderTransformOrigin="0.524,0.496"/>
+                    <metroChart:StackedBarChart
+                        Style="{StaticResource MinimalChartStyle}"
+                        ChartTitle=""
+                        ChartSubTitle=""
+                        SelectedItem="{Binding}" Height="Auto" Margin="10,0,10,157" Width="Auto" >
+                        <metroChart:StackedBarChart.Series>
+                            <metroChart:ChartSeries
+                        		SeriesTitle=""
+                        		DisplayMember="Source"
+                        		ValueMember="HitCount"
+                        		ItemsSource="{Binding}" />
+                        </metroChart:StackedBarChart.Series>
+                    </metroChart:StackedBarChart>
                     <DataGrid x:Name="playerTable" HorizontalAlignment="Left" Height="147" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
                               CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral">
                         <DataGrid.Columns>

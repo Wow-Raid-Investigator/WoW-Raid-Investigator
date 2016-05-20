@@ -22,7 +22,7 @@ namespace Wow_Raid
     {
         public Chart()
         {
-            InitializeComponent();
+         //   InitializeComponent();
             
         }
     }
