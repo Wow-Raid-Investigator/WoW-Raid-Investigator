@@ -24,14 +24,18 @@ namespace Wow_Raid
     /// </summary>
     public partial class StatsPage : Page
     {
-        public ObservableCollection<RaidEffectRow> raids = new ObservableCollection<RaidEffectRow>();
+        public ObservableCollection<RaidEffectRow> raidDamage = new ObservableCollection<RaidEffectRow>();
+        public ObservableCollection<RaidEffectRow> raidHealing = new ObservableCollection<RaidEffectRow>();
         public ObservableCollection<UnitSpellSum> players = new ObservableCollection<UnitSpellSum>();
 
         private int currentRaid;
         private int currentEncounter;
 
+        private RaidHeader row;
+
         public StatsPage(RaidHeader row)
         {
+            this.row = row;
             this.currentRaid = row.Raid;
             this.currentEncounter = row.Encounter;
             DamageEvent[] damageEvents = Perst.Instance.getDamageForRaidEncounter(row.Raid, row.Encounter);
@@ -44,26 +48,35 @@ namespace Wow_Raid
             long totalDamge = 0;
             foreach(UnitTotalDamage damage in damageRaidArray)
             {
-                raids.Add(new RaidEffectRow(damage, row.EncounterTime));
+                raidDamage.Add(new RaidEffectRow(damage, row.EncounterTime));
                 totalDamge += damage.Damage;
             }
 
             long totalHealing = 0;
             foreach (UnitTotalHealing healing in healingRaidArray)
             {
-                raids.Add(new RaidEffectRow(healing, row.EncounterTime));
+                raidHealing.Add(new RaidEffectRow(healing, row.EncounterTime));
                 totalHealing += healing.Healing;
             }
 
             InitializeComponent();
-            statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", 2000, totalDamge / row.EncounterTime, damageRaidArray.Length, 50000, totalDamge, row.EncounterTime));
-            raidTable.DataContext = raids;
+            statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", totalHealing/row.EncounterTime, totalDamge / row.EncounterTime, damageRaidArray.Length, totalHealing, totalDamge, row.EncounterTime));
+            button_Checked(null, null);
 
             String unit = "\"Deathkite-Kel'Thuzad\"";
 
             IEnumerable<UnitSpellSum> spells = Perst.Instance.getUnitTotalSpellDamge(currentRaid, currentEncounter, unit);
-
-            playerTable.DataContext = spells;
+            foreach(UnitSpellSum spell in spells)
+            {
+                players.Add(spell);
+            }
+            spells = Perst.Instance.getUnitTotalSpellHealing(currentRaid, currentEncounter, unit);
+            foreach (UnitSpellSum spell in spells)
+            {
+                players.Add(spell);
+            }
+                
+            playerTable.DataContext = players;
         }
 
         private void viewSelectedPlayer_Click(object sender, RoutedEventArgs e)
@@ -71,6 +84,24 @@ namespace Wow_Raid
             tabControl.SelectedIndex = 2;
 
             // TODO: Update Player Data
+        }
+
+        private void button_Checked(object sender, RoutedEventArgs e)
+        {
+            if((bool)damageButton.IsChecked)
+            {
+                Console.WriteLine("CHANGING TO DAMAGE.");
+                raidTable.DataContext = raidDamage;
+                EffectPerSecondHeader.Header = "Damage Per Second";
+                TotalEffectHeader.Header = "Total Damage";
+            }
+            else
+            {
+                Console.WriteLine("CHANGING TO HEALING");
+                raidTable.DataContext = raidHealing;
+                EffectPerSecondHeader.Header = "Healing Per Second";
+                TotalEffectHeader.Header = "Total Healing";
+            }
         }
     }
 

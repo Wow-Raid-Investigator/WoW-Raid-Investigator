@@ -2,7 +2,7 @@
 
 namespace Wow_Raid.Stat
 {
-    public class UnitTotalEffect
+    public abstract class UnitTotalEffect
     {
         public String Source
         {
@@ -48,5 +48,7 @@ namespace Wow_Raid.Stat
             this.critPercet = crit;
             this.multistrikePercent = multistrike;
         }
+
+        public abstract long getTotalEffect();
     }
 }

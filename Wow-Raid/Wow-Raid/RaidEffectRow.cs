@@ -19,7 +19,7 @@ namespace Wow_Raid
         {
             get
             {
-                return effect.Damage;
+                return effect.getTotalEffect();
             }
         }
 
@@ -33,7 +33,7 @@ namespace Wow_Raid
 
         public RaidEffectRow(UnitTotalDamage damage, long v)
         {
-            this.damage = damage;
+            this.effect = damage;
             this.encounterTime = v;
         }
 

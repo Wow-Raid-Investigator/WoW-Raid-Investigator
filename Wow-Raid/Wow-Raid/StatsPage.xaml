@@ -31,11 +31,14 @@
                         </DataGrid.ContextMenu>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Player" Binding="{Binding Source}" />
-                            <DataGridTextColumn Header="Total Damage" Binding="{Binding TotalDamage}" />
-                            <DataGridTextColumn Header="Damage Per Second" Binding="{Binding DamagePerSecond}" Width="*" />
+                            <DataGridTextColumn x:Name="TotalEffectHeader" Header="Total Damage" Binding="{Binding TotalEffect}" />
+                            <DataGridTextColumn x:Name="EffectPerSecondHeader" Header="Damage Per Second" Binding="{Binding DamagePerSecond}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button x:Name="Toggle" Content="Healing" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Margin="0,0,0,-4" />
+                    <Grid Margin="0,255,0,0">
+                        <RadioButton x:Name="healingButton" Content="Healing" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="283,0,150,0" Checked="button_Checked"/>
+                        <RadioButton x:Name="damageButton" Content="Damage" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="150,0,283,0" IsChecked="True" Checked="button_Checked"/>
+                    </Grid>
                 </Grid>
                 
             </TabItem>
