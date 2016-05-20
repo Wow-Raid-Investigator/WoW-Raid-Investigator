@@ -1,7 +1,5 @@
 package redis;
 
-import java.util.HashMap;
-
 import parser.Event;
 import redis.clients.jedis.Jedis;
 

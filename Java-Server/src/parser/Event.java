@@ -1,10 +1,8 @@
 package parser;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +14,7 @@ import java.util.Map;
 public class Event {
 	public final static boolean HasUnitKeys = false;
 	public final Map<String, String> data;
-	public final Class type;
+	public final Class<?> type;
 	public final long time;
 	// no instantiation for you!
 
@@ -26,14 +24,15 @@ public class Event {
 		this.time = 0;
 	}
 
-	private Event(Map<String, String> data, Class type, long time) {
+	private Event(Map<String, String> data, Class<?> type, long time) {
 		this.data = data;
 		this.type = type;
 		this.time = time;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static Event parseLine(String line) throws IllegalArgumentException, IllegalAccessException {
-		List<Class> classes = Arrays.asList(Event.class.getDeclaredClasses());
+		List<Class<?>> classes = Arrays.asList(Event.class.getDeclaredClasses());
 		
 		long time;
 		
@@ -56,8 +55,8 @@ public class Event {
 
 		String data[] = QuoteSplitter.split(noDate.replaceFirst("^.*?,", ""), ',');
 
-		Class selected = null;
-		for (Class clazz : classes) {
+		Class<?> selected = null;
+		for (Class<?> clazz : classes) {
 			String nameOnly = clazz.getName().replaceAll("parser\\.Event\\$", "");
 
 			if (nameOnly.equals(eventType)) {

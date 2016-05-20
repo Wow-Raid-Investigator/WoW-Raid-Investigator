@@ -1,7 +1,6 @@
 package handlers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;

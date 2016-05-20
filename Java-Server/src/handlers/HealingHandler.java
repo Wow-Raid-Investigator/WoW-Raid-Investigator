@@ -1,17 +1,14 @@
 package handlers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
 
-import handlers.DamageHandler.DamageHandlerContainer;
 import parser.Event;
 
 public class HealingHandler extends Handler {
-	private static final String HEALING = "healing";
 
 	private ArrayList<HealingHandlerContainer> containers;
 

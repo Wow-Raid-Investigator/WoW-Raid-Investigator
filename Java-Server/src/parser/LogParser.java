@@ -20,9 +20,8 @@ public class LogParser {
 	private final HashSet<Handler> handlers;
 	private final HashSet<RedisSpigot> spigots;
 	private final ArrayList<WowEventListener> subscribersToAll;
-	private final HashMap<Class, ArrayList<WowEventListener>> subscribers;
+	private final HashMap<Class<?>, ArrayList<WowEventListener>> subscribers;
 	private boolean inEncounter = false;
-	private boolean flushing = false;
 	
 	public LogParser(int raid) {
 		this.raid = raid;
@@ -30,7 +29,7 @@ public class LogParser {
 		handlers = new HashSet<Handler>();
 		spigots = new HashSet<RedisSpigot>();
 		subscribersToAll = new ArrayList<WowEventListener>();
-		subscribers = new HashMap<Class, ArrayList<WowEventListener>>();
+		subscribers = new HashMap<Class<?>, ArrayList<WowEventListener>>();
 	}
 
 	public void parseFile(String path) {
@@ -105,7 +104,7 @@ public class LogParser {
 
 	}
 
-	public void register(WowEventListener listener, Class type) {
+	public void register(WowEventListener listener, Class<?> type) {
 		if (subscribers.get(type) == null) {
 			subscribers.put(type, new ArrayList<WowEventListener>());
 		}
