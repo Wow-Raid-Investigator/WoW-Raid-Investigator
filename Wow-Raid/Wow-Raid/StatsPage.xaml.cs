@@ -26,7 +26,7 @@ namespace Wow_Raid
     {
         public ObservableCollection<RaidEffectRow> raidDamage = new ObservableCollection<RaidEffectRow>();
         public ObservableCollection<RaidEffectRow> raidHealing = new ObservableCollection<RaidEffectRow>();
-        public ObservableCollection<UnitSpellSum> players = new ObservableCollection<UnitSpellSum>();
+        public ObservableCollection<PlayerRow> players = new ObservableCollection<PlayerRow>();
 
         private int currentRaid;
         private int currentEncounter;
@@ -64,22 +64,28 @@ namespace Wow_Raid
             statsDescription.DataContext = new statText(String.Format("Average HPS: {0}hps\nAverage DPS: {1}dps\nPlayeres: {2}\nTotal healing: {3}\nTotal Damage: {4}\nFight Length: {5}s", totalHealing/row.EncounterTime, totalDamge / row.EncounterTime, damageRaidArray.Length, totalHealing, totalDamge, row.EncounterTime));
             button_Checked(null, null);
 
-            String unit = "\"Deathkite-Kel'Thuzad\"";
+            // Set a default player.
+            if (raidDamage.Count > 0)
+                updatePlayerTable(raidDamage[0].Source);
+        }
 
+
+        private void updatePlayerTable(string unit)
+        {
+            players.Clear();
             IEnumerable<UnitSpellSum> spells = Perst.Instance.getUnitTotalSpellDamge(currentRaid, currentEncounter, unit);
-            foreach(UnitSpellSum spell in spells)
+            foreach (UnitSpellSum spell in spells)
             {
-                players.Add(spell);
+                players.Add(new PlayerRow(spell, row.EncounterTime));
             }
             spells = Perst.Instance.getUnitTotalSpellHealing(currentRaid, currentEncounter, unit);
             foreach (UnitSpellSum spell in spells)
             {
-                players.Add(spell);
+                players.Add(new PlayerRow(spell, row.EncounterTime));
             }
-                
+            UnitName.Content = "Stats for " + unit;
             playerTable.DataContext = players;
         }
-
         private void viewSelectedPlayer_Click(object sender, RoutedEventArgs e)
         {
             tabControl.SelectedIndex = 2;
@@ -102,6 +108,16 @@ namespace Wow_Raid
                 raidTable.DataContext = raidHealing;
                 EffectPerSecondHeader.Header = "Healing Per Second";
                 TotalEffectHeader.Header = "Total Healing";
+            }
+        }
+
+        private void viewPlayerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (raidTable.SelectedCells.Count > 0)
+            {
+                RaidEffectRow row = (RaidEffectRow)raidTable.SelectedItems[0];
+                updatePlayerTable(row.Source);
+                tabControl.SelectedIndex = 2;
             }
         }
     }
@@ -138,7 +154,7 @@ namespace Wow_Raid
         #endregion
     }
 
-    public class PlayerRow
+    public class SpellRow
     {
         private String _spell;
         private String _effect;
