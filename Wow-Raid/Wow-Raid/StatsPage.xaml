@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Wow_Raid"
-      xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
-    mc:Ignorable="d" 
+      xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart" 
+      mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="525"
       Title="StatsPage">
 
@@ -21,21 +21,7 @@
             </TabItem>
             <TabItem Header="Raid" Width="75">
                 <Grid>
-                    <metroChart:StackedBarChart
-                        x:Name="barchart"
-                        Style="{StaticResource MinimalChartStyle}"
-                        ChartTitle=""
-                        ChartSubTitle=""
-                        SelectedItem="{Binding}" Height="Auto" Margin="10,0,10,157" Width="Auto" >
-                        <metroChart:StackedBarChart.Series>
-                            <metroChart:ChartSeries
-                        		SeriesTitle=""
-                        		DisplayMember="Source"
-                        		ValueMember="TotalEffect"
-                        		ItemsSource="{Binding Path=players}" />
-                        </metroChart:StackedBarChart.Series>
-                    </metroChart:StackedBarChart>
-                    <DataGrid x:Name="raidTable" HorizontalAlignment="Left" Height="135" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
+                    <DataGrid x:Name="raidTable" HorizontalAlignment="Stretch" Margin="10,10,10,25" VerticalAlignment="Stretch"
                             CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral" Grid.ColumnSpan="2">
                         <DataGrid.ContextMenu>
                             <ContextMenu >
@@ -48,31 +34,17 @@
                             <DataGridTextColumn x:Name="EffectPerSecondHeader" Header="Damage Per Second" Binding="{Binding DamagePerSecond}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid Margin="0,255,0,0">
-                        <Button x:Name="viewButton" Content="View" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="75" Margin="35,0,0,0" Click="viewPlayerButton_Click"/>
-                        <RadioButton x:Name="healingButton" Content="Healing" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="283,0,150,0" Checked="button_Checked"/>
-                        <RadioButton x:Name="damageButton" Content="Damage" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="150,0,283,0" IsChecked="True" Checked="button_Checked"/>
+                    <Grid Margin="0,255,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                        <Button x:Name="viewButton" Content="View" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Margin="20,0,0,0" Width="75" Click="viewPlayerButton_Click"/>
+                        <RadioButton x:Name="healingButton" Content="Healing" HorizontalAlignment="Center" VerticalAlignment="Top"  Checked="button_Checked"/>
+                        <RadioButton x:Name="damageButton" Content="Damage" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,20,0" IsChecked="True" Checked="button_Checked"/>
                     </Grid>
-                    
                 </Grid>
 
             </TabItem>
             <TabItem Header="Player" Width="75">
                 <Grid>
-                    <metroChart:StackedBarChart
-                        Style="{StaticResource MinimalChartStyle}"
-                        ChartTitle=""
-                        ChartSubTitle=""
-                        SelectedItem="{Binding}" Height="Auto" Margin="10,0,10,157" Width="Auto" >
-                        <metroChart:StackedBarChart.Series>
-                            <metroChart:ChartSeries
-                        		SeriesTitle=""
-                        		DisplayMember="Source"
-                        		ValueMember="HitCount"
-                        		ItemsSource="{Binding}" />
-                        </metroChart:StackedBarChart.Series>
-                    </metroChart:StackedBarChart>
-                    <DataGrid x:Name="playerTable" HorizontalAlignment="Left" Height="147" Margin="10,115,0,0" VerticalAlignment="Top" Width="499"
+                    <DataGrid x:Name="playerTable" HorizontalAlignment="Stretch" Margin="10,10,10,25" VerticalAlignment="Stretch" 
                               CanUserResizeColumns="True" CanUserSortColumns="True" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" AlternatingRowBackground="Coral">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Spell Name" Binding="{Binding Source}" />
@@ -83,7 +55,7 @@
                             <DataGridTextColumn Header="Multistrike%" Binding="{Binding MultistrikePercent}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Label x:Name="UnitName" Content="UNIT" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Margin="0,0,0,0" Width="189"/>
+                    <Label x:Name="UnitName" Content="UNIT" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
 
                 </Grid>
             </TabItem>

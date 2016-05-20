@@ -58,7 +58,12 @@ namespace Wow_Raid.LogClasses
             this._date = this._date.AddSeconds(((long)row["timestamp"]) / 10);
             this._description = "Not Set";
 
-            this.encounterTime = 120;
+            this.encounterTime = (long)row["duration"];
+
+            if(encounterTime == 0)
+            {
+                encounterTime = 120;
+            }
         }
 
         public static RaidHeader[] convert(RowSet set)

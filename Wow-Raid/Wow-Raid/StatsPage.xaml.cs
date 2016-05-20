@@ -2,18 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Wow_Raid.LogClasses;
 using Wow_Raid.Stat;
 
@@ -30,12 +20,27 @@ namespace Wow_Raid
 
         private int currentRaid;
         private int currentEncounter;
-
+  
         private RaidHeader row;
+
+        private object selectedItem = null;
+        public object SelectedItem
+        {
+            get
+            {
+                return selectedItem;
+            }
+            set
+            {
+                // selected item has changed
+                selectedItem = value;
+            }
+        }
+
+        public ObservableCollection<PlayerRow> Players { get { return players; } }
 
         public StatsPage(RaidHeader row)
         {
-            barchart.DataContext = players;
             this.row = row;
             this.currentRaid = row.Raid;
             this.currentEncounter = row.Encounter;

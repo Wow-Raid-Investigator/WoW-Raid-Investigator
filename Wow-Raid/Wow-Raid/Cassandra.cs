@@ -63,7 +63,7 @@ namespace Wow_Raid
 
         public RowSet GetRaidHeaders()
         {
-            RowSet set = session.Execute("select raid, encounter, timestamp from metadata");
+            RowSet set = session.Execute("select raid, encounter, timestamp, duration from metadata");
             return set;
         }
     }
