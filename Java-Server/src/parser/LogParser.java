@@ -11,12 +11,14 @@ import java.util.HashSet;
 import java.util.List;
 
 import handlers.Handler;
+import redis.RedisSpigot;
 
 public class LogParser {
 
 	private int raid;
 	private int encounter;
 	private final HashSet<Handler> handlers;
+	private final HashSet<RedisSpigot> spigots;
 	private final ArrayList<WowEventListener> subscribersToAll;
 	private final HashMap<Class, ArrayList<WowEventListener>> subscribers;
 	private boolean inEncounter = false;
@@ -26,6 +28,7 @@ public class LogParser {
 		this.raid = raid;
 		this.encounter = 0;
 		handlers = new HashSet<Handler>();
+		spigots = new HashSet<RedisSpigot>();
 		subscribersToAll = new ArrayList<WowEventListener>();
 		subscribers = new HashMap<Class, ArrayList<WowEventListener>>();
 	}
@@ -88,6 +91,11 @@ public class LogParser {
 				for (Handler handler : handlers) {
 					handler.flush(raid, encounter);
 				}
+				System.out.println("done");
+				System.out.println(spigots);
+				for (RedisSpigot spigot : spigots) {
+					spigot.flush();
+				}
 			}
 			
 		} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -106,8 +114,9 @@ public class LogParser {
 		
 		if (listener instanceof Handler) {
 			handlers.add((Handler) listener);
+		} else if (listener instanceof RedisSpigot) {
+			spigots.add((RedisSpigot) listener);
 		}
-		System.out.println(handlers);
 		System.out.println(type);
 		System.out.println(subscribers.get(type));
 	}
@@ -115,6 +124,8 @@ public class LogParser {
 	public void registerAll(WowEventListener listener) {
 		if (listener instanceof Handler) {
 			handlers.add((Handler) listener);
+		} else if (listener instanceof RedisSpigot) {
+			spigots.add((RedisSpigot) listener);
 		}
 		
 		subscribersToAll.add(listener);

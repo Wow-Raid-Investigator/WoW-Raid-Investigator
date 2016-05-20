@@ -9,7 +9,7 @@ import handlers.HealingHandler;
 import handlers.MetaHandler;
 import parser.Event;
 import parser.LogParser;
-import redis.PlayerSpigot;
+import redis.UnitSpigot;
 import redis.RedisSpigot;
 import redis.SpellSpigot;
 import redis.clients.jedis.Jedis;
@@ -48,18 +48,13 @@ public class ParseHandle {
 		
 		parser.register(meta, Event.ENCOUNTER_START.class);
 		parser.register(meta, Event.ENCOUNTER_END.class);
-		
-//		SpellCastHandler spellCast = new SpellCastHandler(inserter);
-//		
-//		parser.register(spellCast, Event.SPELL_CAST_SUCCESS.class);
-		
 		Jedis jedis = new Jedis("137.112.104.121");
 		
 		RedisSpigot spellSpigot = new SpellSpigot(jedis);
 		
 		parser.register(spellSpigot, Event.SPELL_CAST_SUCCESS.class);
 		
-		RedisSpigot playerSpigot = new PlayerSpigot(jedis);
+		RedisSpigot playerSpigot = new UnitSpigot(jedis);
 		
 		parser.registerAll(playerSpigot);
 		

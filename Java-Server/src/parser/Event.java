@@ -373,6 +373,8 @@ public class Event {
 		public static final int HealAmount = 24;
 		public static final int Overheal = 25;
 		public static final int HealSpellSchool = 26;
+		public static final int Critical = 27;
+		public static final int Multistrike = 28;
 		public static final boolean HasUnitKeys = true;
 	}
 
@@ -397,6 +399,8 @@ public class Event {
 		public static final int HealAmount = 24;
 		public static final int Overheal = 25;
 		public static final int HealSpellSchool = 26;
+		public static final int Critical = 27;
+		public static final int Multistrike = 28;
 		public static final boolean HasUnitKeys = true;
 	}
 

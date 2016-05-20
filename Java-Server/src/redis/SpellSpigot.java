@@ -12,7 +12,12 @@ public class SpellSpigot extends RedisSpigot {
 
 	@Override
 	public void receive(Event event) {
-		//jedis.hset("spells",event.data.get("CastSpellId"),event.data.get("CastSpellName"));
+		cache.put(event.data.get("CastSpellId"), event.data.get("CastSpellName"));
+	}
+
+	@Override
+	protected String getCollectionName() {
+		return "spells";
 	}
 
 }
