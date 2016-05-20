@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,10 @@ public class Event {
 		SimpleDateFormat parser = new SimpleDateFormat("dd/MM HH:mm:ss.SSS");
 
 		try {
-			time = parser.parse(date).getTime();
+			Date dateVal = parser.parse(date);
+			dateVal.setYear(2016-1900);
+			time = dateVal.getTime();
+			System.out.println(dateVal);
 		} catch (ParseException e1) {
 			System.out.println("Couldn't parse a date!");
 			time = 0;
